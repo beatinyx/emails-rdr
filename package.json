@@ -1,0 +1,13 @@
+{
+  "name": "emails-rdr",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "imagens": "node scripts/build-imagens.mjs",
+    "emails": "node scripts/build-emails.mjs",
+    "build": "npm run imagens && npm run emails"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}
