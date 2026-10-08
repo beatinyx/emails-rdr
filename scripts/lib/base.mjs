@@ -202,8 +202,9 @@ export function blocoRodape(legais) {
 // fonte:     script que gera o arquivo (para o aviso "editar lá")
 // variaveis: merge tags usadas nesta peça
 // botao:     { texto, link } — sempre logo depois do corpo
+// acoes:     HTML pronto no lugar do botão único (vários botões)
 // cssMobile: regras extras dentro da media query de celular
-export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, legais, cssMobile = '' }) {
+export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '' }) {
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="pt-BR">
 <head>
@@ -280,7 +281,7 @@ ${banner}
               ${p('Olá, {{NOME}}.')}${corpo}
             </td>
           </tr>
-${blocoBotao(botao)}
+${acoes ?? blocoBotao(botao)}
 ${blocoRodape(legais)}
 
         </table>
