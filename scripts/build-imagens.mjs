@@ -16,16 +16,19 @@ const PRODUTOS = {
     foto: `${C}/soul-lp/public/assets/fachada.jpg`, pos: 'top',
     logo: `${C}/soul-lp/public/assets/soul-white.png`, logoW: 360,
     scrim: '12,74,92', saida: 'banner-soul-fonseca.jpg',
+    faixa: '#4CC1F0', // = acento do traço (scripts/lib/base.mjs)
   },
   sunin: {
     foto: `${C}/sun-in/public/assets/facade.jpg`, pos: 'top',
     logo: `${C}/sun-in/public/assets/sunin-logo-white.svg`, logoW: 360,
     scrim: '42,42,41', saida: 'banner-sun-in.jpg',
+    faixa: '#E3792A',
   },
   enredo: {
     foto: join(ROOT, 'SQUAD-RDR ENGENHARIA-VILLA ISABEL-IMG-FACHADA-R02.jpg'), pos: 'centre',
     logo: join(ROOT, 'logo novo enredo.svg'), logoW: 380,
     scrim: '46,49,146', saida: 'banner-novo-enredo.jpg',
+    faixa: '#F3C055',
   },
 };
 
@@ -109,39 +112,33 @@ async function fachadasTres() {
 }
 
 // ---- Ofertão RDR (e-mail 02) ----
-// O banner cresce para cima: uma faixa Azul Profundo (EXTRA px) segura o logo do
-// Ofertão e o degradê desce só um pouco sobre a fachada, que fica quase toda à mostra.
+// O banner cresce para cima: uma faixa (EXTRA px) segura o logo do Ofertão e o
+// degradê desce só um pouco sobre a fachada, que fica quase toda à mostra.
+// A faixa usa a cor do traço do produto; na composição dos três, branco.
 const OFERTAO = join(ROOT, 'img', 'logo-ofertao-rdr.png');
 export const OFERTAO_EXTRA = 280; // altura total: H + EXTRA (1200 × 1180 → 600 × 590 no e-mail)
 
-const veuTopo = (w, h, faixa, fade) => Buffer.from(`
+const veuTopo = (w, h, faixa, fade, cor) => Buffer.from(`
 <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
   <defs>
     <linearGradient id="t" x1="0" y1="0" x2="0" y2="${h}" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#002753" stop-opacity="1"/>
-      <stop offset="${faixa / h}" stop-color="#002753" stop-opacity="1"/>
-      <stop offset="${(faixa + fade * 0.35) / h}" stop-color="#002753" stop-opacity=".7"/>
-      <stop offset="${(faixa + fade) / h}" stop-color="#002753" stop-opacity="0"/>
+      <stop offset="0" stop-color="${cor}" stop-opacity="1"/>
+      <stop offset="${faixa / h}" stop-color="${cor}" stop-opacity="1"/>
+      <stop offset="${(faixa + fade * 0.35) / h}" stop-color="${cor}" stop-opacity=".7"/>
+      <stop offset="${(faixa + fade) / h}" stop-color="${cor}" stop-opacity="0"/>
     </linearGradient>
-    <!-- brilho azul-vivo atrás do logo: destaca as letras escuras e ecoa o "sol" do Ofertão -->
-    <radialGradient id="g" cx="${w / 2}" cy="${faixa * 0.8}" r="${w * 0.36}" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#19A9FF" stop-opacity=".5"/>
-      <stop offset=".55" stop-color="#19A9FF" stop-opacity=".16"/>
-      <stop offset="1" stop-color="#19A9FF" stop-opacity="0"/>
-    </radialGradient>
   </defs>
   <rect width="100%" height="100%" fill="url(#t)"/>
-  <rect width="100%" height="100%" fill="url(#g)"/>
 </svg>`);
 
-async function ofertao(base, saida, { logoW = 620, fade = 260 } = {}) {
+async function ofertao(base, saida, cor, { logoW = 620, fade = 260 } = {}) {
   const HT = H + OFERTAO_EXTRA;
   const logo = await sharp(OFERTAO).trim().resize({ width: logoW }).png().toBuffer();
   const lm = await sharp(logo).metadata();
-  await sharp({ create: { width: W, height: HT, channels: 3, background: '#002753' } })
+  await sharp({ create: { width: W, height: HT, channels: 3, background: cor } })
     .composite([
       { input: base, top: OFERTAO_EXTRA, left: 0 },
-      { input: veuTopo(W, HT, OFERTAO_EXTRA, fade), top: 0, left: 0 },
+      { input: veuTopo(W, HT, OFERTAO_EXTRA, fade, cor), top: 0, left: 0 },
       { input: logo, top: 36, left: Math.round((W - lm.width) / 2) },
     ])
     .jpeg(JPG)
@@ -172,6 +169,6 @@ for (const p of Object.values(PRODUTOS)) await banner(p);
 await composicao();
 await logosRdr();
 
-for (const p of Object.values(PRODUTOS)) await ofertao(await fachada(p), p.saida.replace('banner-', 'banner-ofertao-'));
-await ofertao(await fachadasTres(), 'banner-ofertao-opcoes.jpg');
+for (const p of Object.values(PRODUTOS)) await ofertao(await fachada(p), p.saida.replace('banner-', 'banner-ofertao-'), p.faixa);
+await ofertao(await fachadasTres(), 'banner-ofertao-opcoes.jpg', '#FFFFFF');
 await iconeCalendario();
