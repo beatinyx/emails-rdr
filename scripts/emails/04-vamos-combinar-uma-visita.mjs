@@ -1,8 +1,8 @@
 // E-mail 04 "Vamos combinar uma visita?" (Ofertão RDR): 3 versões por empreendimento + sem produto.
 // Reaproveita o banner do Ofertão e a caixa Azul Profundo do convite (e-mail 02).
 import {
-  EMPREENDIMENTOS, FONTE_TEXTO, FONTE_DISPLAY, IMG, RDR, TRACO_TRES,
-  p, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
+  EMPREENDIMENTOS, TRACO_TRES,
+  p, destaque, linhaIcone as linha, caixaEncontro, CSS_CAIXA_ENCONTRO, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
 } from '../lib/base.mjs';
 
 const DATA = '29/10'; // data do Ofertão
@@ -14,36 +14,8 @@ const BASE = {
   titulo: 'Vamos combinar uma visita?',
   assunto: 'Vamos combinar uma visita?',
   botao: { texto: 'Quero escolher um horário', link: '{{LINK_HORARIO}}', larguraVml: 340 },
-  cssMobile: `
-      .rdr-datas  { padding:22px 18px 24px 18px !important; }
-      .rdr-destaque { font-size:20px !important; line-height:26px !important; }`,
+  cssMobile: CSS_CAIXA_ENCONTRO,
 };
-
-const destaque = (txt) => `<strong style="color:${RDR.ceu};">${txt}</strong>`;
-
-// Linha da caixa: ícone + informação em destaque (data ou local).
-const linha = (icone, alt, valor, ultima) => `
-                      <tr>
-                        <td width="48" valign="middle" style="width:48px; padding:0 14px ${ultima ? 0 : 14}px 0;">
-                          <img src="${IMG}/${icone}" width="34" height="34" alt="${alt}" style="display:block; width:34px; height:34px; border:0;" />
-                        </td>
-                        <td class="rdr-destaque" valign="middle" style="padding:0 0 ${ultima ? 0 : 14}px 0; font-family:${FONTE_DISPLAY}; font-size:24px; line-height:30px; font-weight:bold; color:#FFFFFF;">${valor}</td>
-                      </tr>`;
-
-// Caixa Azul Profundo: data (e local, quando há produto) em evidência, depois o parágrafo.
-function caixaEncontro(linhas, texto) {
-  return `
-              <!-- Caixa do encontro do Ofertão -->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 28px 0;">
-                <tr>
-                  <td class="rdr-datas" style="padding:28px 28px 30px 28px; background-color:${RDR.profundo}; border-top:4px solid ${RDR.ceu};">
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">${linhas}
-                    </table>
-                    <p style="margin:22px 0 0 0; font-family:${FONTE_TEXTO}; font-size:18px; line-height:28px; color:#FFFFFF;">${texto}</p>
-                  </td>
-                </tr>
-              </table>`;
-}
 
 const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
   arquivo: `${e.slug}.html`,

@@ -114,6 +114,40 @@ export function caixaApoio(c, html, { comentario = '', margem = '4px 0 28px 0' }
               </table>`;
 }
 
+// ---- Caixa do encontro (Ofertão): Azul Profundo, ícones e informação em destaque ----
+
+export const destaque = (txt) => `<strong style="color:${RDR.ceu};">${txt}</strong>`;
+
+// Linha da caixa: ícone + informação em destaque (data ou local).
+export const linhaIcone = (icone, alt, valor, ultima) => `
+                      <tr>
+                        <td width="48" valign="middle" style="width:48px; padding:0 14px ${ultima ? 0 : 14}px 0;">
+                          <img src="${IMG}/${icone}" width="34" height="34" alt="${alt}" style="display:block; width:34px; height:34px; border:0;" />
+                        </td>
+                        <td class="rdr-destaque" valign="middle" style="padding:0 0 ${ultima ? 0 : 14}px 0; font-family:${FONTE_DISPLAY}; font-size:24px; line-height:30px; font-weight:bold; color:#FFFFFF;">${valor}</td>
+                      </tr>`;
+
+// linhas = linhaIcone(...) concatenadas; texto = parágrafo abaixo delas.
+// margem: '4px 0 8px 0' quando o botão vem logo depois da caixa.
+export function caixaEncontro(linhas, texto, { margem = '4px 0 28px 0' } = {}) {
+  return `
+              <!-- Caixa do encontro do Ofertão -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:${margem};">
+                <tr>
+                  <td class="rdr-datas" style="padding:28px 28px 30px 28px; background-color:${RDR.profundo}; border-top:4px solid ${RDR.ceu};">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">${linhas}
+                    </table>
+                    <p style="margin:22px 0 0 0; font-family:${FONTE_TEXTO}; font-size:18px; line-height:28px; color:#FFFFFF;">${texto}</p>
+                  </td>
+                </tr>
+              </table>`;
+}
+
+// CSS de celular da caixa do encontro (passar em cssMobile).
+export const CSS_CAIXA_ENCONTRO = `
+      .rdr-datas  { padding:22px 18px 24px 18px !important; }
+      .rdr-destaque { font-size:20px !important; line-height:26px !important; }`;
+
 export function blocoBanner({ src, alt, altura = 450 }) {
   return `
           <!-- ============ BANNER ============ -->
@@ -203,8 +237,9 @@ export function blocoRodape(legais) {
 // variaveis: merge tags usadas nesta peça
 // botao:     { texto, link } — sempre logo depois do corpo
 // acoes:     HTML pronto no lugar do botão único (vários botões)
+// saudacao:  primeira linha do corpo (padrão "Olá, {{NOME}}.")
 // cssMobile: regras extras dentro da media query de celular
-export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '' }) {
+export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = 'Olá, {{NOME}}.' }) {
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="pt-BR">
 <head>
@@ -278,7 +313,7 @@ ${banner}
             <td class="rdr-gutter" align="left" style="padding:48px 48px 8px 48px;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td width="40" height="4" style="width:40px; height:4px; background-color:${RDR.ceu}; font-size:0; line-height:0;">&nbsp;</td></tr></table>
               <h1 class="rdr-titulo" style="margin:20px 0 28px 0; font-family:${FONTE_DISPLAY}; font-size:40px; line-height:44px; font-weight:300; letter-spacing:-0.4px; text-transform:uppercase; color:${RDR.azul};">${titulo}</h1>
-              ${p('Olá, {{NOME}}.')}${corpo}
+              ${p(saudacao)}${corpo}
             </td>
           </tr>
 ${acoes ?? blocoBotao(botao)}

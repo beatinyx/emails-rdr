@@ -41,17 +41,18 @@ function bloco({ e, texto }) {
               </table>`;
 }
 
-// Três botões, um por linha, cada um com o traço do produto à esquerda para identificá-lo.
+// Três botões, um por linha, na largura do corpo e com o texto centralizado;
+// o traço do produto à esquerda identifica cada um.
 function botoes() {
   const botao = ({ e, link }, ultimo) => `
               <!--[if mso]>
-              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${link}" style="height:60px; v-text-anchor:middle; width:380px;" stroke="f" fillcolor="${RDR.azul}">
+              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${link}" style="height:60px; v-text-anchor:middle; width:504px;" stroke="f" fillcolor="${RDR.azul}">
                 <w:anchorlock/>
                 <center style="color:#FFFFFF; font-family:Arial, sans-serif; font-size:17px; font-weight:bold;">Quero conhecer o ${e.nome} &rarr;</center>
               </v:rect>
               <![endif]-->
               <!--[if !mso]><!-->
-              <a class="rdr-btn" href="${link}" target="_blank" style="display:block; width:332px; background-color:${RDR.azul}; border-left:6px solid ${e.acento}; color:#FFFFFF; font-family:${FONTE_TEXTO}; font-size:17px; line-height:20px; font-weight:bold; letter-spacing:0.2px; text-decoration:none; padding:20px 36px; mso-hide:all;">Quero conhecer o ${e.nome}&nbsp;&nbsp;&rarr;</a>
+              <a class="rdr-btn" href="${link}" target="_blank" style="display:block; text-align:center; background-color:${RDR.azul}; border-left:6px solid ${e.acento}; color:#FFFFFF; font-family:${FONTE_TEXTO}; font-size:17px; line-height:20px; font-weight:bold; letter-spacing:0.2px; text-decoration:none; padding:20px 24px; mso-hide:all;">Quero conhecer o ${e.nome}&nbsp;&nbsp;&rarr;</a>
               <!--<![endif]-->${ultimo ? '' : `
               <div style="height:12px; line-height:12px; font-size:0;">&nbsp;</div>`}`;
   return `
@@ -85,7 +86,7 @@ const html = documento({
       .rdr-col     { display:block !important; width:100% !important; }
       .rdr-col-img { width:100% !important; height:auto !important; }
       .rdr-col-txt { padding:18px 20px 20px 20px !important; }
-      a.rdr-btn    { width:auto !important; font-size:16px !important; }
+      a.rdr-btn    { font-size:16px !important; }
       /* "EMPREENDIMENTOS" não cabe a 34px em 327px de largura */
       .rdr-titulo  { font-size:28px !important; line-height:32px !important; }`,
 });
