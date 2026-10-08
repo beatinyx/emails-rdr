@@ -50,7 +50,8 @@ const corpo =
   p('A RDR está preparando um encontro para você conhecer as opções e esclarecer suas dúvidas com um corretor.') +
   blocoDatas();
 
-const banner = (src, alt) => blocoBanner({ src, alt: `Ofertão RDR · ${alt}` });
+// banner do Ofertão: 1200 × 1180 (faixa azul acima da fachada) → 600 × 590
+const banner = (src, alt) => blocoBanner({ src, alt: `Ofertão RDR · ${alt}`, altura: 590 });
 
 const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
   arquivo: `${e.slug}.html`,

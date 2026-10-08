@@ -95,12 +95,12 @@ export function blocoTraco(segmentos) {
           </tr>`;
 }
 
-export function blocoBanner({ src, alt }) {
+export function blocoBanner({ src, alt, altura = 450 }) {
   return `
           <!-- ============ BANNER ============ -->
           <tr>
             <td style="padding:0; background-color:${RDR.profundo};">
-              <img class="rdr-full" src="${IMG}/${src}" width="600" height="450" alt="${alt}" style="display:block; width:600px; max-width:100%; height:auto; border:0;" />
+              <img class="rdr-full" src="${IMG}/${src}" width="600" height="${altura}" alt="${alt}" style="display:block; width:600px; max-width:100%; height:auto; border:0;" />
             </td>
           </tr>`;
 }
