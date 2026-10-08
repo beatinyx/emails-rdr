@@ -227,7 +227,10 @@ function textoEmPath(texto, arquivoFonte, tamanho, { tracking = 0 } = {}) {
     x += (g.advanceWidth / fonte.unitsPerEm) * tamanho + tracking;
   }
   const bb = fonte.getPath(texto, 0, 0, tamanho).getBoundingBox();
-  return { d: partes.join(' '), largura: x - tracking, topo: bb.y1, base: bb.y2 };
+  // um <path> por letra: alguns glifos (ex.: "Ã") não fecham o contorno, e num path único
+  // a letra seguinte some no preenchimento
+  const paths = (cor) => partes.map((d) => `<path d="${d}" fill="${cor}"/>`).join('');
+  return { paths, largura: x - tracking, topo: bb.y1, base: bb.y2 };
 }
 
 // Ícone de relógio no mesmo traço do calendário (caixa do evento, e-mail 09).
@@ -262,13 +265,41 @@ async function bannerFeirao() {
     <polygon points="0,0 ${170 + tg},0 170,${FH} 0,${FH}" fill="url(#c)"/>
     <polygon points="${FW - 150},0 ${FW},0 ${FW},${FH} ${FW - 150 - tg},${FH}" fill="url(#a)"/>
     <rect x="${selX}" y="${selY}" width="${selW}" height="${selH}" fill="#1E2BBB"/>
-    <path d="${t.d}" fill="#FFFFFF" transform="translate(${selX + padX} ${baseline.toFixed(1)})"/>
+    <g transform="translate(${selX + padX} ${baseline.toFixed(1)})">${t.paths('#FFFFFF')}</g>
   </svg>`);
   await sharp(svg)
     .composite([{ input: logo, top: 48, left: Math.round((FW - lm.width) / 2) }])
     .jpeg(JPG)
     .toFile(OUT('banner-ofertao-feirao.jpg'));
   console.log('ok banner-ofertao-feirao.jpg');
+}
+
+// ---- E-mail 11: banner "É AMANHÃ!" + Ofertão (com a assinatura RDR) ----
+async function bannerAmanha() {
+  const FW = 1200, FH = 720; // 600 × 360 no e-mail
+  const t = textoEmPath('É AMANHÃ!', 'Srotone-Bold.ttf', 150, { tracking: 2 });
+  const topoTexto = 64;
+  const baseline = topoTexto - t.topo;
+  const logo = await sharp(OFERTAO).trim().resize({ width: 640 }).png().toBuffer();
+  const lm = await sharp(logo).metadata();
+  const logoY = Math.round(baseline + t.base + 40);
+  // mesmas lâminas claras a 14° do banner do Feirão
+  const tg = Math.tan(14 * Math.PI / 180) * FH | 0;
+  const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${FW}" height="${FH}">
+    <defs>
+      <linearGradient id="c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#48A1F8" stop-opacity=".28"/><stop offset="1" stop-color="#48A1F8" stop-opacity="0"/></linearGradient>
+      <linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E2BBB" stop-opacity=".14"/><stop offset="1" stop-color="#1E2BBB" stop-opacity="0"/></linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="#FFFFFF"/>
+    <polygon points="0,0 ${170 + tg},0 170,${FH} 0,${FH}" fill="url(#c)"/>
+    <polygon points="${FW - 150},0 ${FW},0 ${FW},${FH} ${FW - 150 - tg},${FH}" fill="url(#a)"/>
+    <g transform="translate(${((FW - t.largura) / 2).toFixed(1)} ${baseline.toFixed(1)})">${t.paths('#1E2BBB')}</g>
+  </svg>`);
+  await sharp(svg)
+    .composite([{ input: logo, top: logoY, left: Math.round((FW - lm.width) / 2) }])
+    .jpeg(JPG)
+    .toFile(OUT('banner-ofertao-amanha.jpg'));
+  console.log('ok banner-ofertao-amanha.jpg', `logo termina em ${logoY + lm.height}px de ${FH}`);
 }
 
 async function logosRdr() {
@@ -291,3 +322,4 @@ await aberturaRdr();
 for (const p of Object.values(PRODUTOS)) await cartao(p);
 await iconeHorario();
 await bannerFeirao();
+await bannerAmanha();

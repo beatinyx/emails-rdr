@@ -165,9 +165,10 @@ export const linhaEvento = (icone, rotulo, valor, ultima) => `
                       </tr>`;
 
 // Caixa do evento: título, Datas / Local / Atendimento do Ofertão e, opcionalmente, um parágrafo final.
-export function caixaEvento(titulo, { fim = '', margem = '4px 0 8px 0' } = {}) {
+// datas: { rotulo, valor } da primeira linha (padrão: o período do Ofertão).
+export function caixaEvento(titulo, { fim = '', margem = '4px 0 8px 0', datas = { rotulo: 'Datas', valor: OFERTAO.periodo } } = {}) {
   const linhas =
-    linhaEvento('icone-calendario.png', 'Datas', OFERTAO.periodo) +
+    linhaEvento('icone-calendario.png', datas.rotulo, datas.valor) +
     linhaEvento('icone-local.png', 'Local', OFERTAO.local) +
     linhaEvento('icone-horario.png', 'Atendimento', OFERTAO.horarios, true);
   return `
