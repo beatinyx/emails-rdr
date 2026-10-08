@@ -243,29 +243,41 @@ async function iconeHorario() {
   console.log('ok icone-horario.png');
 }
 
-async function bannerFeirao() {
-  const FW = 1200, FH = 700; // 600 × 350 no e-mail
-  // logo do Ofertão (já traz a plaquinha RDR, a assinatura da marca)
-  const logo = await sharp(OFERTAO).trim().resize({ width: 720 }).png().toBuffer();
-  const lm = await sharp(logo).metadata();
-  // selo "FEIRÃO DE IMÓVEIS": tarja Azul RDR sem raio (rdr-selo), Srotone Medium
-  const t = textoEmPath('FEIRÃO DE IMÓVEIS', 'Srotone-Medium.ttf', 52, { tracking: 4 });
-  const padX = 40, selH = 92;
-  const selW = Math.round(t.largura + padX * 2);
-  const selX = Math.round((FW - selW) / 2), selY = 48 + lm.height + 36;
-  const baseline = selY + selH / 2 + (t.base - t.topo) / 2 - t.base;
-  // lâminas claras a 14° nas bordas, como no tapume do brandbook
+// Tarja da marca (rdr-selo): bloco Azul RDR sem raio, texto branco em Srotone Medium,
+// centralizada em FW. Devolve o SVG e a altura.
+function tarja(texto, FW, y, { tamanho = 52, tracking = 4, padX = 40, altura = 92 } = {}) {
+  const t = textoEmPath(texto, 'Srotone-Medium.ttf', tamanho, { tracking });
+  const w = Math.round(t.largura + padX * 2);
+  const x = Math.round((FW - w) / 2);
+  const baseline = y + altura / 2 + (t.base - t.topo) / 2 - t.base;
+  return {
+    svg: `<rect x="${x}" y="${y}" width="${w}" height="${altura}" fill="#1E2BBB"/>
+    <g transform="translate(${x + padX} ${baseline.toFixed(1)})">${t.paths('#FFFFFF')}</g>`,
+    altura,
+  };
+}
+
+// Lâminas claras a 14° nas bordas (como no tapume do brandbook), fundo branco.
+function fundoLaminas(FW, FH) {
   const tg = Math.tan(14 * Math.PI / 180) * FH | 0;
-  const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${FW}" height="${FH}">
-    <defs>
+  return `<defs>
       <linearGradient id="c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#48A1F8" stop-opacity=".28"/><stop offset="1" stop-color="#48A1F8" stop-opacity="0"/></linearGradient>
       <linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E2BBB" stop-opacity=".14"/><stop offset="1" stop-color="#1E2BBB" stop-opacity="0"/></linearGradient>
     </defs>
     <rect width="100%" height="100%" fill="#FFFFFF"/>
     <polygon points="0,0 ${170 + tg},0 170,${FH} 0,${FH}" fill="url(#c)"/>
-    <polygon points="${FW - 150},0 ${FW},0 ${FW},${FH} ${FW - 150 - tg},${FH}" fill="url(#a)"/>
-    <rect x="${selX}" y="${selY}" width="${selW}" height="${selH}" fill="#1E2BBB"/>
-    <g transform="translate(${selX + padX} ${baseline.toFixed(1)})">${t.paths('#FFFFFF')}</g>
+    <polygon points="${FW - 150},0 ${FW},0 ${FW},${FH} ${FW - 150 - tg},${FH}" fill="url(#a)"/>`;
+}
+
+async function bannerFeirao() {
+  const FW = 1200, FH = 700; // 600 × 350 no e-mail
+  // logo do Ofertão (já traz a plaquinha RDR, a assinatura da marca)
+  const logo = await sharp(OFERTAO).trim().resize({ width: 720 }).png().toBuffer();
+  const lm = await sharp(logo).metadata();
+  const selo = tarja('FEIRÃO DE IMÓVEIS', FW, 48 + lm.height + 36);
+  const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${FW}" height="${FH}">
+    ${fundoLaminas(FW, FH)}
+    ${selo.svg}
   </svg>`);
   await sharp(svg)
     .composite([{ input: logo, top: 48, left: Math.round((FW - lm.width) / 2) }])
@@ -274,32 +286,23 @@ async function bannerFeirao() {
   console.log('ok banner-ofertao-feirao.jpg');
 }
 
-// ---- E-mail 11: banner "É AMANHÃ!" + Ofertão (com a assinatura RDR) ----
+// ---- E-mail 11: tarja "É AMANHÃ!" (como a do Feirão) + Ofertão com a assinatura RDR ----
 async function bannerAmanha() {
-  const FW = 1200, FH = 720; // 600 × 360 no e-mail
-  const t = textoEmPath('É AMANHÃ!', 'Srotone-Bold.ttf', 150, { tracking: 2 });
-  const topoTexto = 64;
-  const baseline = topoTexto - t.topo;
-  const logo = await sharp(OFERTAO).trim().resize({ width: 640 }).png().toBuffer();
+  const FW = 1200;
+  const selo = tarja('É AMANHÃ!', FW, 48, { tamanho: 64, padX: 48, altura: 112 });
+  const logo = await sharp(OFERTAO).trim().resize({ width: 680 }).png().toBuffer();
   const lm = await sharp(logo).metadata();
-  const logoY = Math.round(baseline + t.base + 40);
-  // mesmas lâminas claras a 14° do banner do Feirão
-  const tg = Math.tan(14 * Math.PI / 180) * FH | 0;
+  const logoY = 48 + selo.altura + 36;
+  const FH = logoY + lm.height + 48;
   const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${FW}" height="${FH}">
-    <defs>
-      <linearGradient id="c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#48A1F8" stop-opacity=".28"/><stop offset="1" stop-color="#48A1F8" stop-opacity="0"/></linearGradient>
-      <linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E2BBB" stop-opacity=".14"/><stop offset="1" stop-color="#1E2BBB" stop-opacity="0"/></linearGradient>
-    </defs>
-    <rect width="100%" height="100%" fill="#FFFFFF"/>
-    <polygon points="0,0 ${170 + tg},0 170,${FH} 0,${FH}" fill="url(#c)"/>
-    <polygon points="${FW - 150},0 ${FW},0 ${FW},${FH} ${FW - 150 - tg},${FH}" fill="url(#a)"/>
-    <g transform="translate(${((FW - t.largura) / 2).toFixed(1)} ${baseline.toFixed(1)})">${t.paths('#1E2BBB')}</g>
+    ${fundoLaminas(FW, FH)}
+    ${selo.svg}
   </svg>`);
   await sharp(svg)
     .composite([{ input: logo, top: logoY, left: Math.round((FW - lm.width) / 2) }])
     .jpeg(JPG)
     .toFile(OUT('banner-ofertao-amanha.jpg'));
-  console.log('ok banner-ofertao-amanha.jpg', `logo termina em ${logoY + lm.height}px de ${FH}`);
+  console.log('ok banner-ofertao-amanha.jpg', `${FW}x${FH}`);
 }
 
 async function logosRdr() {

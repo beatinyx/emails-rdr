@@ -9,7 +9,7 @@ const banner = `
           <!-- ============ BANNER: É AMANHÃ! · OFERTÃO RDR ============ -->
           <tr>
             <td style="padding:0; background-color:#FFFFFF;">
-              <img class="rdr-full" src="${IMG}/banner-ofertao-amanha.jpg" width="600" height="360" alt="É amanhã! Ofertão RDR · RDR Engenharia" style="display:block; width:600px; max-width:100%; height:auto; border:0;" />
+              <img class="rdr-full" src="${IMG}/banner-ofertao-amanha.jpg" width="600" height="342" alt="É amanhã! Ofertão RDR · RDR Engenharia" style="display:block; width:600px; max-width:100%; height:auto; border:0;" />
             </td>
           </tr>`;
 
