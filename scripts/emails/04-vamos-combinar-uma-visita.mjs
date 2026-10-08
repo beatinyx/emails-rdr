@@ -1,12 +1,12 @@
 // E-mail 04 "Vamos combinar uma visita?" (Ofertão RDR): 3 versões por empreendimento + sem produto.
 // Reaproveita o banner do Ofertão e a caixa Azul Profundo do convite (e-mail 02).
 import {
-  EMPREENDIMENTOS, TRACO_TRES,
+  EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
   p, destaque, linhaIcone as linha, caixaEncontro, CSS_CAIXA_ENCONTRO, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
 } from '../lib/base.mjs';
 
-const DATA = '29/10'; // data do Ofertão
-const LOCAL = '{{LOCAL_ATENDIMENTO}}';
+const DATA = OFERTAO.data;
+const LOCAL = OFERTAO.localAtendimento;
 
 const BASE = {
   email: '04 · Vamos combinar uma visita? (Ofertão RDR)',

@@ -3,7 +3,7 @@
 // de apoio do KV), lado a lado no desktop e empilhado no celular; um botão por produto.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, IMG, RDR,
-  p, documento, gravar,
+  p, CSS_COLUNAS, documento, gravar,
 } from '../lib/base.mjs';
 
 const { soul, sunin, enredo } = EMPREENDIMENTOS;
@@ -82,9 +82,9 @@ const html = documento({
   acoes: botoes(),
   legais: PRODUTOS.map((x) => x.e.legal),
   // no celular, cartão em cima e texto embaixo; botões na largura toda
-  cssMobile: `
-      .rdr-col     { display:block !important; width:100% !important; }
-      .rdr-col-img { width:100% !important; height:auto !important; }
+  cssMobile:
+    CSS_COLUNAS +
+    `
       .rdr-col-txt { padding:18px 20px 20px 20px !important; }
       a.rdr-btn    { font-size:16px !important; }
       /* "EMPREENDIMENTOS" não cabe a 34px em 327px de largura */

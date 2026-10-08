@@ -1,12 +1,12 @@
 // E-mail 06 "Conheça e tire suas dúvidas" (Ofertão RDR): versão única, sem produto.
 // Banner do Ofertão com as três fachadas + legenda; caixa Azul Profundo com as datas.
 import {
-  EMPREENDIMENTOS, TRACO_TRES,
+  EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
   blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
 } from '../lib/base.mjs';
 
-const DATAS = '22 a 29/10'; // período do Ofertão
+const DATAS = OFERTAO.periodo;
 
 const html = documento({
   email: '06 · Conheça e tire suas dúvidas (Ofertão RDR)',
