@@ -4,3 +4,4 @@ await import('./emails/01-veja-as-opcoes.mjs');
 await import('./emails/02-vamos-conhecer-as-opcoes.mjs');
 await import('./emails/03-comece-pelas-suas-duvidas.mjs');
 await import('./emails/04-vamos-combinar-uma-visita.mjs');
+await import('./emails/05-conheca-os-empreendimentos.mjs');

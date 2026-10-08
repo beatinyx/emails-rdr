@@ -165,6 +165,52 @@ async function iconeLocal() {
   console.log('ok icone-local.png');
 }
 
+// ---- E-mail 05: abertura com a marca RDR e cartões dos empreendimentos ----
+
+// Abertura: gradiente assinatura (design-system-rdr), lâminas a 14° e logo branco.
+async function aberturaRdr() {
+  const AW = 1200, AH = 440;
+  const DS = `${C}/design-system-rdr/public/assets`;
+  const fundo = await sharp(`${DS}/elementos/gradiente-rdr.webp`).resize(AW, AH, { fit: 'cover', position: 'centre' }).png().toBuffer();
+  // lâminas: planos diagonais inclinados 14° (geometry.angulo), céu → transparente
+  const tg = Math.tan(14 * Math.PI / 180) * AH | 0;
+  const laminas = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${AW}" height="${AH}">
+    <defs>
+      <linearGradient id="c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#48A1F8" stop-opacity=".55"/><stop offset="1" stop-color="#48A1F8" stop-opacity="0"/></linearGradient>
+      <linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E2BBB" stop-opacity=".6"/><stop offset="1" stop-color="#1E2BBB" stop-opacity="0"/></linearGradient>
+    </defs>
+    <polygon points="${AW - 430},0 ${AW - 250},0 ${AW - 250 - tg},${AH} ${AW - 430 - tg},${AH}" fill="url(#a)"/>
+    <polygon points="${AW - 220},0 ${AW},0 ${AW},${AH} ${AW - 220 - tg},${AH}" fill="url(#c)"/>
+  </svg>`);
+  const logo = await sharp(readFileSync(`${DS}/logo/rdr-logo-branco.svg`), { density: 600 }).resize({ width: 440 }).png().toBuffer();
+  const lm = await sharp(logo).metadata();
+  await sharp(fundo)
+    .composite([
+      { input: laminas, top: 0, left: 0 },
+      { input: logo, top: Math.round((AH - lm.height) / 2), left: 80 },
+    ])
+    .jpeg(JPG)
+    .toFile(OUT('banner-rdr-marca.jpg'));
+  console.log('ok banner-rdr-marca.jpg');
+}
+
+// Cartão de empreendimento: fachada + véu + marca, 528 × 440 (264 × 220 no e-mail).
+async function cartao(p) {
+  const CW = 528, CH = 440;
+  const logo = await logoPng(p.logo, 230);
+  const lm = await sharp(logo).metadata();
+  const saida = p.saida.replace('banner-', 'cartao-');
+  await sharp(p.foto)
+    .resize(CW, CH, { fit: 'cover', position: p.pos })
+    .composite([
+      { input: scrim(p.scrim, CW, CH), top: 0, left: 0 },
+      { input: logo, top: CH - 32 - lm.height, left: 32 },
+    ])
+    .jpeg(JPG)
+    .toFile(OUT(saida));
+  console.log('ok', saida);
+}
+
 async function logosRdr() {
   const DS = `${C}/design-system-rdr/public/assets/logo`;
   for (const [src, out] of [['rdr-logo-branco.svg', 'rdr-logo-branco.png'], ['rdr-logo-profundo.svg', 'rdr-logo-profundo.png']]) {
@@ -181,3 +227,5 @@ for (const p of Object.values(PRODUTOS)) await ofertao(await fachada(p), p.saida
 await ofertao(await fachadasTres(), 'banner-ofertao-opcoes.jpg', FAIXA_OFERTAO);
 await iconeCalendario();
 await iconeLocal();
+await aberturaRdr();
+for (const p of Object.values(PRODUTOS)) await cartao(p);
