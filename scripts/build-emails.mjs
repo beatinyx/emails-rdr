@@ -5,3 +5,7 @@ await import('./emails/02-vamos-conhecer-as-opcoes.mjs');
 await import('./emails/03-comece-pelas-suas-duvidas.mjs');
 await import('./emails/04-vamos-combinar-uma-visita.mjs');
 await import('./emails/05-conheca-os-empreendimentos.mjs');
+await import('./emails/06-conheca-e-tire-suas-duvidas.mjs');
+await import('./emails/07-conheca-o-empreendimento.mjs');
+await import('./emails/08-veja-as-opcoes-e-agende.mjs');
+await import('./emails/09-feirao-ofertao.mjs');

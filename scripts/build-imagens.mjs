@@ -1,6 +1,7 @@
 // Gera as imagens dos e-mails (2x para 600px). Rode: node scripts/build-imagens.mjs
 // Requer sharp (npm i sharp). Saída em img/.
 import sharp from 'sharp';
+import opentype from 'opentype.js';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -211,6 +212,65 @@ async function cartao(p) {
   console.log('ok', saida);
 }
 
+// ---- E-mail 09: banner do Feirão (Ofertão + "Feirão de imóveis" + assinatura RDR) ----
+
+// Texto da marca convertido em contorno (path SVG): não depende da fonte instalada.
+const FONTES = `${C}/design-system-rdr/public/assets/fonts`;
+function textoEmPath(texto, arquivoFonte, tamanho, { tracking = 0 } = {}) {
+  const buf = readFileSync(`${FONTES}/${arquivoFonte}`);
+  const fonte = opentype.parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
+  let x = 0;
+  const partes = [];
+  for (const ch of texto) {
+    const g = fonte.charToGlyph(ch);
+    partes.push(g.getPath(x, 0, tamanho).toPathData(2));
+    x += (g.advanceWidth / fonte.unitsPerEm) * tamanho + tracking;
+  }
+  const bb = fonte.getPath(texto, 0, 0, tamanho).getBoundingBox();
+  return { d: partes.join(' '), largura: x - tracking, topo: bb.y1, base: bb.y2 };
+}
+
+// Ícone de relógio no mesmo traço do calendário (caixa do evento, e-mail 09).
+async function iconeHorario() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#48A1F8" stroke-width="3">
+    <circle cx="24" cy="24" r="19"/>
+    <path d="M24 12v13h9" stroke-linecap="square"/>
+  </svg>`;
+  await sharp(Buffer.from(svg), { density: 300 }).resize({ width: 96 }).png({ compressionLevel: 9 }).toFile(OUT('icone-horario.png'));
+  console.log('ok icone-horario.png');
+}
+
+async function bannerFeirao() {
+  const FW = 1200, FH = 700; // 600 × 350 no e-mail
+  // logo do Ofertão (já traz a plaquinha RDR, a assinatura da marca)
+  const logo = await sharp(OFERTAO).trim().resize({ width: 720 }).png().toBuffer();
+  const lm = await sharp(logo).metadata();
+  // selo "FEIRÃO DE IMÓVEIS": tarja Azul RDR sem raio (rdr-selo), Srotone Medium
+  const t = textoEmPath('FEIRÃO DE IMÓVEIS', 'Srotone-Medium.ttf', 52, { tracking: 4 });
+  const padX = 40, selH = 92;
+  const selW = Math.round(t.largura + padX * 2);
+  const selX = Math.round((FW - selW) / 2), selY = 48 + lm.height + 36;
+  const baseline = selY + selH / 2 + (t.base - t.topo) / 2 - t.base;
+  // lâminas claras a 14° nas bordas, como no tapume do brandbook
+  const tg = Math.tan(14 * Math.PI / 180) * FH | 0;
+  const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${FW}" height="${FH}">
+    <defs>
+      <linearGradient id="c" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#48A1F8" stop-opacity=".28"/><stop offset="1" stop-color="#48A1F8" stop-opacity="0"/></linearGradient>
+      <linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E2BBB" stop-opacity=".14"/><stop offset="1" stop-color="#1E2BBB" stop-opacity="0"/></linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="#FFFFFF"/>
+    <polygon points="0,0 ${170 + tg},0 170,${FH} 0,${FH}" fill="url(#c)"/>
+    <polygon points="${FW - 150},0 ${FW},0 ${FW},${FH} ${FW - 150 - tg},${FH}" fill="url(#a)"/>
+    <rect x="${selX}" y="${selY}" width="${selW}" height="${selH}" fill="#1E2BBB"/>
+    <path d="${t.d}" fill="#FFFFFF" transform="translate(${selX + padX} ${baseline.toFixed(1)})"/>
+  </svg>`);
+  await sharp(svg)
+    .composite([{ input: logo, top: 48, left: Math.round((FW - lm.width) / 2) }])
+    .jpeg(JPG)
+    .toFile(OUT('banner-ofertao-feirao.jpg'));
+  console.log('ok banner-ofertao-feirao.jpg');
+}
+
 async function logosRdr() {
   const DS = `${C}/design-system-rdr/public/assets/logo`;
   for (const [src, out] of [['rdr-logo-branco.svg', 'rdr-logo-branco.png'], ['rdr-logo-profundo.svg', 'rdr-logo-profundo.png']]) {
@@ -229,3 +289,5 @@ await iconeCalendario();
 await iconeLocal();
 await aberturaRdr();
 for (const p of Object.values(PRODUTOS)) await cartao(p);
+await iconeHorario();
+await bannerFeirao();
