@@ -1,13 +1,13 @@
 // E-mail 07 "Conheça o [Empreendimento]" / "Qual opção você quer conhecer?": 3 versões + sem produto.
 // Banner do KV de cada produto (e-mail 01); caixa do encontro com data e local (e-mail 04).
 import {
-  EMPREENDIMENTOS, RDR, TRACO_TRES,
+  EMPREENDIMENTOS, OFERTAO, RDR, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
   blocoBanner, blocoLegendas, blocoTraco, documento, gravar,
 } from '../lib/base.mjs';
 
-const DATA = '29/10'; // data do Ofertão (a mesma do e-mail 04)
-const LOCAL = '{{LOCAL_ATENDIMENTO}}';
+const DATA = OFERTAO.data;
+const LOCAL = OFERTAO.localAtendimento;
 
 const BASE = {
   email: '07 · Conheça o empreendimento (Ofertão RDR)',

@@ -114,6 +114,15 @@ export function caixaApoio(c, html, { comentario = '', margem = '4px 0 28px 0' }
               </table>`;
 }
 
+// ---- Ofertão RDR: dados do evento (uma fonte só para todos os e-mails) ----
+export const OFERTAO = {
+  periodo: '22 a 29/10', // e-mails 06, 09 e 10
+  data: '29/10', // próximo encontro: e-mails 04, 07 e 08
+  localAtendimento: '{{LOCAL_ATENDIMENTO}}', // local por empreendimento: e-mails 04 e 07
+  local: '{{LOCAL_OFERTAO}}', // local do evento: e-mails 09 e 10
+  horarios: '{{HORARIOS_OFERTAO}}',
+};
+
 // ---- Caixa do encontro (Ofertão): Azul Profundo, ícones e informação em destaque ----
 
 export const destaque = (txt) => `<strong style="color:${RDR.ceu};">${txt}</strong>`;
@@ -124,7 +133,7 @@ export const linhaIcone = (icone, alt, valor, ultima) => `
                         <td width="48" valign="middle" style="width:48px; padding:0 14px ${ultima ? 0 : 14}px 0;">
                           <img src="${IMG}/${icone}" width="34" height="34" alt="${alt}" style="display:block; width:34px; height:34px; border:0;" />
                         </td>
-                        <td class="rdr-destaque" valign="middle" style="padding:0 0 ${ultima ? 0 : 14}px 0; font-family:${FONTE_DISPLAY}; font-size:24px; line-height:30px; font-weight:bold; color:#FFFFFF;">${valor}</td>
+                        <td class="rdr-destaque" valign="middle" style="padding:0 0 ${ultima ? 0 : 14}px 0; word-break:break-word; font-family:${FONTE_DISPLAY}; font-size:24px; line-height:30px; font-weight:bold; color:#FFFFFF;">${valor}</td>
                       </tr>`;
 
 // linhas = linhaIcone(...) concatenadas; texto = parágrafo abaixo delas.
@@ -142,6 +151,48 @@ export function caixaEncontro(linhas, texto, { margem = '4px 0 28px 0' } = {}) {
                 </tr>
               </table>`;
 }
+
+// Linha da caixa do evento: ícone, rótulo (Datas, Local, Atendimento) e a informação em destaque.
+export const linhaEvento = (icone, rotulo, valor, ultima) => `
+                      <tr>
+                        <td width="48" valign="top" style="width:48px; padding:2px 14px ${ultima ? 0 : 18}px 0;">
+                          <img src="${IMG}/${icone}" width="34" height="34" alt="" style="display:block; width:34px; height:34px; border:0;" />
+                        </td>
+                        <td valign="top" style="padding:0 0 ${ultima ? 0 : 18}px 0;">
+                          <p style="margin:0; font-family:${FONTE_TEXTO}; font-size:15px; line-height:20px; color:${RDR.ceu};">${rotulo}</p>
+                          <p class="rdr-destaque" style="margin:2px 0 0 0; word-break:break-word; font-family:${FONTE_DISPLAY}; font-size:22px; line-height:28px; font-weight:bold; color:#FFFFFF;">${valor}</p>
+                        </td>
+                      </tr>`;
+
+// Caixa do evento: título, Datas / Local / Atendimento do Ofertão e, opcionalmente, um parágrafo final.
+export function caixaEvento(titulo, { fim = '', margem = '4px 0 8px 0' } = {}) {
+  const linhas =
+    linhaEvento('icone-calendario.png', 'Datas', OFERTAO.periodo) +
+    linhaEvento('icone-local.png', 'Local', OFERTAO.local) +
+    linhaEvento('icone-horario.png', 'Atendimento', OFERTAO.horarios, true);
+  return `
+              <!-- Caixa do evento -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:${margem};">
+                <tr>
+                  <td class="rdr-datas" style="padding:28px 28px 30px 28px; background-color:${RDR.profundo}; border-top:4px solid ${RDR.ceu};">
+                    <p style="margin:0 0 22px 0; font-family:${FONTE_DISPLAY}; font-size:24px; line-height:30px; font-weight:300; text-transform:uppercase; color:#FFFFFF;">${titulo}</p>
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">${linhas}
+                    </table>${fim ? `
+                    <p style="margin:24px 0 0 0; font-family:${FONTE_TEXTO}; font-size:18px; line-height:28px; color:#FFFFFF;">${fim}</p>` : ''}
+                  </td>
+                </tr>
+              </table>`;
+}
+
+export const CSS_CAIXA_EVENTO = `
+      .rdr-datas    { padding:22px 18px 24px 18px !important; }
+      .rdr-destaque { font-size:19px !important; line-height:25px !important; }`;
+
+// CSS de celular dos blocos cartão + texto (e-mails 05 e 10): empilha as colunas.
+// border-box: sem ele, largura 100% + padding passa da tela.
+export const CSS_COLUNAS = `
+      .rdr-col     { display:block !important; width:100% !important; box-sizing:border-box !important; }
+      .rdr-col-img { width:100% !important; height:auto !important; }`;
 
 // CSS de celular da caixa do encontro (passar em cssMobile).
 export const CSS_CAIXA_ENCONTRO = `
@@ -163,6 +214,15 @@ export function blocoBanner({ src, alt, altura = 450 }) {
 export function blocoBannerOfertao(src, alt) {
   return blocoBanner({ src: src.replace(/^banner-(rdr-)?/, 'banner-ofertao-'), alt: `Ofertão RDR · ${alt}`, altura: 590 });
 }
+
+// Banner do Feirão: Ofertão + "Feirão de imóveis" + assinatura RDR (e-mails 09 e 10).
+export const BANNER_FEIRAO = `
+          <!-- ============ BANNER: OFERTÃO · FEIRÃO DE IMÓVEIS ============ -->
+          <tr>
+            <td style="padding:0; background-color:#FFFFFF;">
+              <img class="rdr-full" src="${IMG}/banner-ofertao-feirao.jpg" width="600" height="350" alt="Ofertão RDR · Feirão de imóveis · RDR Engenharia" style="display:block; width:600px; max-width:100%; height:auto; border:0;" />
+            </td>
+          </tr>`;
 
 // Legenda das três marcas: identifica cada fachada mesmo com imagens bloqueadas.
 export function blocoLegendas() {

@@ -1,12 +1,12 @@
 // E-mail 08 "Veja as opções e agende sua visita" (Ofertão RDR): versão única, sem produto.
 // Banner do Ofertão com as três fachadas + legenda; caixa do encontro com a próxima data.
 import {
-  EMPREENDIMENTOS, TRACO_TRES,
+  EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
   blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
 } from '../lib/base.mjs';
 
-const DATA = '29/10'; // data do Ofertão (a mesma dos e-mails 04 e 07)
+const DATA = OFERTAO.data;
 
 const html = documento({
   email: '08 · Veja as opções e agende sua visita (Ofertão RDR)',
