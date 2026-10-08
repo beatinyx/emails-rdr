@@ -34,6 +34,8 @@ export const EMPREENDIMENTOS = {
     caixa: { fundo: '#E4DBF3', barra: '#1B8CA6', texto: '#16232F' },
     argumento:
       'são apartamentos de 2 quartos com suíte e varanda, com lazer completo entregue equipado e decorado, a 4 minutos da Ponte Rio-Niterói.',
+    // atributo: frase curta e independente para caixas de destaque (e-mail 03)
+    atributo: 'Apartamentos de 2 quartos com suíte e varanda, a 4 minutos da Ponte Rio-Niterói.',
     legal:
       'Condomínio Soul Fonseca — Protocolo 91.328, R-7-27.586 do Cartório do 14º Ofício de Registro de Imóveis do 4º subdistrito do 1º distrito de Niterói - RJ.',
   },
@@ -48,6 +50,7 @@ export const EMPREENDIMENTOS = {
     caixa: { fundo: '#F2EEDE', barra: '#E3792A', texto: '#494948' },
     argumento:
       'são studios no Ingá, a poucos passos da UFF e do Plaza Shopping, com rooftop de lazer completo.',
+    atributo: 'Studios no Ingá, a poucos passos da UFF e do Plaza Shopping, com rooftop de lazer completo.',
     legal:
       'Residencial Sun In Studio Design — Protocolo n°127306, R-23-22.569 no 2° Ofício de Justiça de Niterói / Registro de Imóveis da 1ª Circunscrição Imobiliária e Tabelião de Notas, no endereço: Rua Miguel de Frias, n°169, Loja 01, Niterói/RJ.',
   },
@@ -60,7 +63,8 @@ export const EMPREENDIMENTOS = {
     alt: 'Fachada do Novo Enredo Condomínio, empreendimento da RDR Engenharia em Vila Isabel',
     // apoio do KV Novo Enredo: pêssego do logo negativo com o índigo do positivo
     caixa: { fundo: '#FFEBD8', barra: '#2E3192', texto: '#2B2A4A' },
-    argumento: '{{ARGUMENTO_PRODUTO}}', // sem material do produto na pasta: preencher
+    argumento: 'são apartamentos de 2 quartos, com opção de suíte e garden, a 8 minutos do Maracanã.',
+    atributo: 'Apartamentos de 2 quartos, com opção de suíte e garden, a 8 minutos do Maracanã.',
     legal:
       'Novo Enredo Condomínio — Protocolo n° 429601 - R-13 - 55.681 no 10° Ofício de Registro de Imóveis no endereço: Tv. do Paço, 23, sala 1103, Centro, Rio de Janeiro/RJ. Endereço do empreendimento: Rua Sylvio Pereira de Sá, n°71, Vila Isabel, distrito do Andaraí – Rio de Janeiro.',
   },
@@ -95,6 +99,21 @@ export function blocoTraco(segmentos) {
           </tr>`;
 }
 
+// Caixa de destaque: barra lateral + fundo na cor de apoio do KV.
+// c = { fundo, barra, texto }; html = conteúdo já pronto (frase ou parágrafos).
+export function caixaApoio(c, html, { comentario = '', margem = '4px 0 28px 0' } = {}) {
+  return `${comentario ? `
+              <!-- ${comentario} -->` : ''}
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:${margem};">
+                <tr>
+                  <td width="6" style="width:6px; background-color:${c.barra}; font-size:0; line-height:0;">&nbsp;</td>
+                  <td class="rdr-caixa" style="padding:24px 28px 26px 24px; background-color:${c.fundo};">
+                    <p style="margin:0; font-family:${FONTE_TEXTO}; font-size:18px; line-height:28px; color:${c.texto};">${html}</p>
+                  </td>
+                </tr>
+              </table>`;
+}
+
 export function blocoBanner({ src, alt, altura = 450 }) {
   return `
           <!-- ============ BANNER ============ -->
@@ -103,6 +122,12 @@ export function blocoBanner({ src, alt, altura = 450 }) {
               <img class="rdr-full" src="${IMG}/${src}" width="600" height="${altura}" alt="${alt}" style="display:block; width:600px; max-width:100%; height:auto; border:0;" />
             </td>
           </tr>`;
+}
+
+// Banner do Ofertão RDR: 1200 × 1180 (faixa branca acima da fachada) → 600 × 590.
+// src = banner do e-mail 01 (banner-*.jpg); usa a versão banner-ofertao-*.jpg.
+export function blocoBannerOfertao(src, alt) {
+  return blocoBanner({ src: src.replace(/^banner-(rdr-)?/, 'banner-ofertao-'), alt: `Ofertão RDR · ${alt}`, altura: 590 });
 }
 
 // Legenda das três marcas: identifica cada fachada mesmo com imagens bloqueadas.

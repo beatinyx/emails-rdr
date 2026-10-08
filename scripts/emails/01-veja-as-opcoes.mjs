@@ -1,7 +1,7 @@
 // E-mail 01 "Veja as opções": 6 versões por empreendimento (com e sem novidade) + sem produto.
 import {
-  EMPREENDIMENTOS, FONTE_TEXTO, TRACO_TRES,
-  p, blocoBanner, blocoLegendas, blocoTraco, documento, gravar,
+  EMPREENDIMENTOS, TRACO_TRES,
+  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar,
 } from '../lib/base.mjs';
 
 const BASE = {
@@ -14,21 +14,11 @@ const BASE = {
 };
 
 function blocoCaixa(e, modo) {
-  const c = e.caixa;
   const frase =
     modo === 'atualizacao'
       ? `Temos uma informação sobre o ${e.nome} para compartilhar com você: {{ATUALIZACAO_PRODUTO}}`
       : `Vale conhecer este ponto do ${e.nome}: ${e.argumento}`;
-  return `
-              <!-- Caixa do empreendimento: cor de apoio do KV ${e.nome} -->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 28px 0;">
-                <tr>
-                  <td width="6" style="width:6px; background-color:${c.barra}; font-size:0; line-height:0;">&nbsp;</td>
-                  <td class="rdr-caixa" style="padding:24px 28px 26px 24px; background-color:${c.fundo};">
-                    <p style="margin:0; font-family:${FONTE_TEXTO}; font-size:18px; line-height:28px; color:${c.texto};">${frase}</p>
-                  </td>
-                </tr>
-              </table>`;
+  return caixaApoio(e.caixa, frase, { comentario: `Caixa do empreendimento: cor de apoio do KV ${e.nome}` });
 }
 
 const versoes = [];

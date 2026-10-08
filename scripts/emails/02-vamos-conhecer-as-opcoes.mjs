@@ -1,7 +1,7 @@
 // E-mail 02 "Vamos conhecer as opções?" (Ofertão RDR): 3 versões por empreendimento + sem produto.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, FONTE_DISPLAY, IMG, RDR, TRACO_TRES,
-  p, blocoBanner, blocoLegendas, blocoTraco, documento, gravar,
+  p, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
 } from '../lib/base.mjs';
 
 const DATAS = ['15', '22', '29'];
@@ -50,8 +50,6 @@ const corpo =
   p('A RDR está preparando um encontro para você conhecer as opções e esclarecer suas dúvidas com um corretor.') +
   blocoDatas();
 
-// banner do Ofertão: 1200 × 1180 (faixa azul acima da fachada) → 600 × 590
-const banner = (src, alt) => blocoBanner({ src, alt: `Ofertão RDR · ${alt}`, altura: 590 });
 
 const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
   arquivo: `${e.slug}.html`,
@@ -61,7 +59,7 @@ const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
     cabecalho: `       Versão:      ${e.nome}
        Assunto:     ${BASE.assunto}
        Específicas: nenhuma`,
-    banner: banner(e.banner.replace('banner-', 'banner-ofertao-'), e.alt) + blocoTraco([[e.acento, 600]]),
+    banner: blocoBannerOfertao(e.banner, e.alt) + blocoTraco([[e.acento, 600]]),
     corpo,
     legais: [e.legal],
   }),
@@ -76,8 +74,8 @@ versoes.push({
        Assunto:     ${BASE.assunto}
        Específicas: nenhuma`,
     banner:
-      banner(
-        'banner-ofertao-opcoes.jpg',
+      blocoBannerOfertao(
+        'banner-rdr-opcoes.jpg',
         'fachadas do Soul Fonseca, no Fonseca; do Sun In, no Ingá; e do Novo Enredo, em Vila Isabel',
       ) +
       blocoTraco(TRACO_TRES) +

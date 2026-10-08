@@ -7,16 +7,16 @@
   <meta name="x-apple-disable-message-reformatting" />
   <meta name="color-scheme" content="light only" />
   <meta name="supported-color-schemes" content="light only" />
-  <title>Veja as opções</title>
+  <title>Vamos combinar uma visita?</title>
 
   <!-- ============================================================
-       RDR Engenharia · E-mail 01 · Veja as opções
-       Versão:      Novo Enredo — sem novidade confirmada (argumento do produto)
-       Assunto:     Veja as opções
-       Específicas: (argumento já preenchido)
-       Variáveis: {{NOME}} · {{LINK_SIMULACAO}} · {{LINK_DESCADASTRO}}
+       RDR Engenharia · E-mail 04 · Vamos combinar uma visita? (Ofertão RDR)
+       Versão:      Soul Fonseca
+       Assunto:     Vamos combinar uma visita?
+       Específicas: {{LOCAL_ATENDIMENTO}} (local do atendimento deste empreendimento)
+       Variáveis: {{NOME}} · {{LOCAL_ATENDIMENTO}} · {{LINK_HORARIO}} · {{LINK_DESCADASTRO}}
        Imagens:   servidas de https://raw.githubusercontent.com/beatinyx/emails-rdr/main/img/
-       Gerado por scripts/emails/01-veja-as-opcoes.mjs (editar lá, não aqui)
+       Gerado por scripts/emails/04-vamos-combinar-uma-visita.mjs (editar lá, não aqui)
        ============================================================ -->
 
   <!--[if mso]>
@@ -47,6 +47,8 @@
       .rdr-legenda{ padding-left:12px !important; }
       /* CTA ocupa a largura toda no toque */
       .rdr-btn    { display:block !important; width:auto !important; padding-left:16px !important; padding-right:16px !important; text-align:center !important; font-size:18px !important; }
+      .rdr-datas  { padding:22px 18px 24px 18px !important; }
+      .rdr-destaque { font-size:20px !important; line-height:26px !important; }
     }
   </style>
 </head>
@@ -55,7 +57,7 @@
 
   <!-- Pré-header: visível na inbox, oculto no corpo -->
   <div style="display:none; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden; mso-hide:all; color:#E3E6EE;">
-    Um ponto do Novo Enredo que vale conhecer.
+    Conheça o Soul Fonseca no próximo encontro da RDR e tire suas dúvidas com um corretor.
     &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
   </div>
 
@@ -70,12 +72,12 @@
           <!-- ============ BANNER ============ -->
           <tr>
             <td style="padding:0; background-color:#002753;">
-              <img class="rdr-full" src="https://raw.githubusercontent.com/beatinyx/emails-rdr/main/img/banner-novo-enredo.jpg" width="600" height="450" alt="Fachada do Novo Enredo Condomínio, empreendimento da RDR Engenharia em Vila Isabel" style="display:block; width:600px; max-width:100%; height:auto; border:0;" />
+              <img class="rdr-full" src="https://raw.githubusercontent.com/beatinyx/emails-rdr/main/img/banner-ofertao-soul-fonseca.jpg" width="600" height="590" alt="Ofertão RDR · Fachada do Soul Fonseca, empreendimento da RDR Engenharia no Fonseca, Niterói" style="display:block; width:600px; max-width:100%; height:auto; border:0;" />
             </td>
           </tr>
           <tr>
             <td style="padding:0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td width="600" height="6" style="width:600px; height:6px; background-color:#F3C055; font-size:0; line-height:0;">&nbsp;</td></tr></table>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td width="600" height="6" style="width:600px; height:6px; background-color:#4CC1F0; font-size:0; line-height:0;">&nbsp;</td></tr></table>
             </td>
           </tr>
 
@@ -83,18 +85,31 @@
           <tr>
             <td class="rdr-gutter" align="left" style="padding:48px 48px 8px 48px;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td width="40" height="4" style="width:40px; height:4px; background-color:#48A1F8; font-size:0; line-height:0;">&nbsp;</td></tr></table>
-              <h1 class="rdr-titulo" style="margin:20px 0 28px 0; font-family:'Srotone', 'Merta Sans', Arial, Helvetica, sans-serif; font-size:40px; line-height:44px; font-weight:300; letter-spacing:-0.4px; text-transform:uppercase; color:#1E2BBB;">Veja as opções</h1>
+              <h1 class="rdr-titulo" style="margin:20px 0 28px 0; font-family:'Srotone', 'Merta Sans', Arial, Helvetica, sans-serif; font-size:40px; line-height:44px; font-weight:300; letter-spacing:-0.4px; text-transform:uppercase; color:#1E2BBB;">Vamos combinar uma visita?</h1>
               <p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F;">Olá, {{NOME}}.</p>
-              <!-- Caixa do empreendimento: cor de apoio do KV Novo Enredo -->
+              <!-- Caixa do encontro do Ofertão -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 28px 0;">
                 <tr>
-                  <td width="6" style="width:6px; background-color:#2E3192; font-size:0; line-height:0;">&nbsp;</td>
-                  <td class="rdr-caixa" style="padding:24px 28px 26px 24px; background-color:#FFEBD8;">
-                    <p style="margin:0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:18px; line-height:28px; color:#2B2A4A;">Vale conhecer este ponto do Novo Enredo: são apartamentos de 2 quartos, com opção de suíte e garden, a 8 minutos do Maracanã.</p>
+                  <td class="rdr-datas" style="padding:28px 28px 30px 28px; background-color:#002753; border-top:4px solid #48A1F8;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td width="48" valign="middle" style="width:48px; padding:0 14px 14px 0;">
+                          <img src="https://raw.githubusercontent.com/beatinyx/emails-rdr/main/img/icone-calendario.png" width="34" height="34" alt="Data" style="display:block; width:34px; height:34px; border:0;" />
+                        </td>
+                        <td class="rdr-destaque" valign="middle" style="padding:0 0 14px 0; font-family:'Srotone', 'Merta Sans', Arial, Helvetica, sans-serif; font-size:24px; line-height:30px; font-weight:bold; color:#FFFFFF;">29/10</td>
+                      </tr>
+                      <tr>
+                        <td width="48" valign="middle" style="width:48px; padding:0 14px 0px 0;">
+                          <img src="https://raw.githubusercontent.com/beatinyx/emails-rdr/main/img/icone-local.png" width="34" height="34" alt="Local" style="display:block; width:34px; height:34px; border:0;" />
+                        </td>
+                        <td class="rdr-destaque" valign="middle" style="padding:0 0 0px 0; font-family:'Srotone', 'Merta Sans', Arial, Helvetica, sans-serif; font-size:24px; line-height:30px; font-weight:bold; color:#FFFFFF;">{{LOCAL_ATENDIMENTO}}</td>
+                      </tr>
+                    </table>
+                    <p style="margin:22px 0 0 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:18px; line-height:28px; color:#FFFFFF;">O próximo encontro da RDR será em <strong style="color:#48A1F8;">29/10</strong>, em <strong style="color:#48A1F8;">{{LOCAL_ATENDIMENTO}}</strong>. Você pode conhecer o Soul Fonseca e tirar suas dúvidas com um corretor.</p>
                   </td>
                 </tr>
               </table>
-              <p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F; margin-bottom:12px;">Se fizer sentido para seus planos, você pode pedir uma simulação e conferir os valores com um corretor.</p>
+              <p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F; margin-bottom:12px;">Venha conferir nossas opções, escolha um horário para o atendimento.</p>
             </td>
           </tr>
 
@@ -102,13 +117,13 @@
           <tr>
             <td class="rdr-gutter" align="left" style="padding:8px 48px 56px 48px;">
               <!--[if mso]>
-              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{LINK_SIMULACAO}}" style="height:60px; v-text-anchor:middle; width:300px;" stroke="f" fillcolor="#1E2BBB">
+              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{LINK_HORARIO}}" style="height:60px; v-text-anchor:middle; width:340px;" stroke="f" fillcolor="#1E2BBB">
                 <w:anchorlock/>
-                <center style="color:#FFFFFF; font-family:Arial, sans-serif; font-size:17px; font-weight:bold;">Quero uma simulação &rarr;</center>
+                <center style="color:#FFFFFF; font-family:Arial, sans-serif; font-size:17px; font-weight:bold;">Quero escolher um horário &rarr;</center>
               </v:rect>
               <![endif]-->
               <!--[if !mso]><!-->
-              <a class="rdr-btn" href="{{LINK_SIMULACAO}}" target="_blank" style="display:inline-block; background-color:#1E2BBB; color:#FFFFFF; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:20px; font-weight:bold; letter-spacing:0.2px; text-decoration:none; padding:20px 36px; mso-hide:all;">Quero uma simulação&nbsp;&nbsp;&rarr;</a>
+              <a class="rdr-btn" href="{{LINK_HORARIO}}" target="_blank" style="display:inline-block; background-color:#1E2BBB; color:#FFFFFF; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:20px; font-weight:bold; letter-spacing:0.2px; text-decoration:none; padding:20px 36px; mso-hide:all;">Quero escolher um horário&nbsp;&nbsp;&rarr;</a>
               <!--<![endif]-->
             </td>
           </tr>
@@ -123,7 +138,7 @@
                 <tr><td style="border-top:1px solid #2A4A73; font-size:0; line-height:0; height:1px;">&nbsp;</td></tr>
               </table>
               <div style="height:24px; line-height:24px; font-size:0;">&nbsp;</div>
-              <p style="margin:0 0 10px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:11px; line-height:17px; color:#A9B6CB;">Novo Enredo Condomínio — Protocolo n° 429601 - R-13 - 55.681 no 10° Ofício de Registro de Imóveis no endereço: Tv. do Paço, 23, sala 1103, Centro, Rio de Janeiro/RJ. Endereço do empreendimento: Rua Sylvio Pereira de Sá, n°71, Vila Isabel, distrito do Andaraí – Rio de Janeiro.</p>
+              <p style="margin:0 0 10px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:11px; line-height:17px; color:#A9B6CB;">Condomínio Soul Fonseca — Protocolo 91.328, R-7-27.586 do Cartório do 14º Ofício de Registro de Imóveis do 4º subdistrito do 1º distrito de Niterói - RJ.</p>
               <p style="margin:0 0 10px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:11px; line-height:17px; color:#A9B6CB;">Imagens meramente ilustrativas. Informações sobre acabamentos, decoração e mobiliários constam no memorial descritivo. Consulte condições e unidades disponíveis.</p>
               <p style="margin:18px 0 0 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#C9D3E2;">Você recebeu este e-mail porque demonstrou interesse nos empreendimentos da RDR Engenharia. Se não quiser mais receber nossas mensagens, <a href="{{LINK_DESCADASTRO}}" target="_blank" style="color:#FFFFFF; text-decoration:underline;">descadastre-se aqui</a>.</p>
               <p style="margin:14px 0 0 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#C9D3E2;">RDR Engenharia · Avenida Álvares Cabral, 1777, sala 509, Santo Agostinho · Belo Horizonte - MG, Brasil</p>
