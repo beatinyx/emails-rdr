@@ -109,21 +109,24 @@ async function fachadasTres() {
 }
 
 // ---- Ofertão RDR (e-mail 02) ----
-// A fachada fica embaixo; no alto, um véu Azul Profundo segura o logo do Ofertão.
+// O banner cresce para cima: uma faixa Azul Profundo (EXTRA px) segura o logo do
+// Ofertão e o degradê desce só um pouco sobre a fachada, que fica quase toda à mostra.
 const OFERTAO = join(ROOT, 'img', 'logo-ofertao-rdr.png');
+export const OFERTAO_EXTRA = 280; // altura total: H + EXTRA (1200 × 1180 → 600 × 590 no e-mail)
 
-const veuTopo = (w, h, ate) => Buffer.from(`
+const veuTopo = (w, h, faixa, fade) => Buffer.from(`
 <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
   <defs>
-    <linearGradient id="t" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#002753" stop-opacity=".96"/>
-      <stop offset="${ate * 0.55}" stop-color="#002753" stop-opacity=".82"/>
-      <stop offset="${ate}" stop-color="#002753" stop-opacity="0"/>
+    <linearGradient id="t" x1="0" y1="0" x2="0" y2="${h}" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#002753" stop-opacity="1"/>
+      <stop offset="${faixa / h}" stop-color="#002753" stop-opacity="1"/>
+      <stop offset="${(faixa + fade * 0.35) / h}" stop-color="#002753" stop-opacity=".7"/>
+      <stop offset="${(faixa + fade) / h}" stop-color="#002753" stop-opacity="0"/>
     </linearGradient>
     <!-- brilho azul-vivo atrás do logo: destaca as letras escuras e ecoa o "sol" do Ofertão -->
-    <radialGradient id="g" cx=".5" cy=".24" r=".42">
-      <stop offset="0" stop-color="#19A9FF" stop-opacity=".55"/>
-      <stop offset=".55" stop-color="#19A9FF" stop-opacity=".18"/>
+    <radialGradient id="g" cx="${w / 2}" cy="${faixa * 0.8}" r="${w * 0.36}" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#19A9FF" stop-opacity=".5"/>
+      <stop offset=".55" stop-color="#19A9FF" stop-opacity=".16"/>
       <stop offset="1" stop-color="#19A9FF" stop-opacity="0"/>
     </radialGradient>
   </defs>
@@ -131,17 +134,19 @@ const veuTopo = (w, h, ate) => Buffer.from(`
   <rect width="100%" height="100%" fill="url(#g)"/>
 </svg>`);
 
-async function ofertao(base, saida, { logoW = 700, ate = 0.62 } = {}) {
+async function ofertao(base, saida, { logoW = 620, fade = 260 } = {}) {
+  const HT = H + OFERTAO_EXTRA;
   const logo = await sharp(OFERTAO).trim().resize({ width: logoW }).png().toBuffer();
   const lm = await sharp(logo).metadata();
-  await sharp(base)
+  await sharp({ create: { width: W, height: HT, channels: 3, background: '#002753' } })
     .composite([
-      { input: veuTopo(W, H, ate), top: 0, left: 0 },
-      { input: logo, top: 28, left: Math.round((W - lm.width) / 2) },
+      { input: base, top: OFERTAO_EXTRA, left: 0 },
+      { input: veuTopo(W, HT, OFERTAO_EXTRA, fade), top: 0, left: 0 },
+      { input: logo, top: 36, left: Math.round((W - lm.width) / 2) },
     ])
     .jpeg(JPG)
     .toFile(OUT(saida));
-  console.log('ok', saida);
+  console.log('ok', saida, `${W}x${HT}`);
 }
 
 // Ícone de calendário (traço Azul Céu, sem raio, como a RDR) para a caixa de datas.
