@@ -49,24 +49,36 @@ const scrim = (rgb, w, h) => Buffer.from(`
   <rect width="100%" height="100%" fill="url(#d)"/>
 </svg>`);
 
-async function banner(p) {
+const JPG = { quality: 78, mozjpeg: true, progressive: true };
+
+// Fachada do produto com o véu e a marca do KV (sem gravar).
+async function fachada(p) {
   const logo = await logoPng(p.logo, p.logoW);
   const lm = await sharp(logo).metadata();
   const pad = 64;
-  // o traço de acento do KV fica no HTML, abaixo do banner (build-emails.mjs)
-  await sharp(p.foto)
+  // o traço de acento do KV fica no HTML, abaixo do banner (scripts/lib/base.mjs)
+  return sharp(p.foto)
     .resize(W, H, { fit: 'cover', position: p.pos })
     .composite([
       { input: scrim(p.scrim, W, H), top: 0, left: 0 },
       { input: logo, top: H - pad - lm.height, left: pad },
     ])
-    .jpeg({ quality: 78, mozjpeg: true, progressive: true })
-    .toFile(OUT(p.saida));
+    .png() // intermediário sem perda: o JPEG só é gerado uma vez, na saída
+    .toBuffer();
+}
+
+async function banner(p) {
+  await sharp(await fachada(p)).jpeg(JPG).toFile(OUT(p.saida));
   console.log('ok', p.saida);
 }
 
 // Composição sem produto: três fachadas lado a lado, cada uma com a sua marca.
 async function composicao() {
+  await sharp(await fachadasTres()).jpeg(JPG).toFile(OUT('banner-rdr-opcoes.jpg'));
+  console.log('ok banner-rdr-opcoes.jpg');
+}
+
+async function fachadasTres() {
   const GAP = 6;
   const cols = [
     { ...PRODUTOS.soul, w: 384, x: 300 },
@@ -90,11 +102,57 @@ async function composicao() {
     layers.push({ input: logo, top: H - 48 - lm.height, left: x + 40 });
     x += c.w + GAP;
   }
-  await sharp({ create: { width: W, height: H, channels: 3, background: '#FEFDF8' } })
+  return sharp({ create: { width: W, height: H, channels: 3, background: '#FEFDF8' } })
     .composite(layers)
-    .jpeg({ quality: 78, mozjpeg: true, progressive: true })
-    .toFile(OUT('banner-rdr-opcoes.jpg'));
-  console.log('ok banner-rdr-opcoes.jpg');
+    .png()
+    .toBuffer();
+}
+
+// ---- Ofertão RDR (e-mail 02) ----
+// A fachada fica embaixo; no alto, um véu Azul Profundo segura o logo do Ofertão.
+const OFERTAO = join(ROOT, 'img', 'logo-ofertao-rdr.png');
+
+const veuTopo = (w, h, ate) => Buffer.from(`
+<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+  <defs>
+    <linearGradient id="t" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#002753" stop-opacity=".96"/>
+      <stop offset="${ate * 0.55}" stop-color="#002753" stop-opacity=".82"/>
+      <stop offset="${ate}" stop-color="#002753" stop-opacity="0"/>
+    </linearGradient>
+    <!-- brilho azul-vivo atrás do logo: destaca as letras escuras e ecoa o "sol" do Ofertão -->
+    <radialGradient id="g" cx=".5" cy=".24" r=".42">
+      <stop offset="0" stop-color="#19A9FF" stop-opacity=".55"/>
+      <stop offset=".55" stop-color="#19A9FF" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#19A9FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#t)"/>
+  <rect width="100%" height="100%" fill="url(#g)"/>
+</svg>`);
+
+async function ofertao(base, saida, { logoW = 700, ate = 0.62 } = {}) {
+  const logo = await sharp(OFERTAO).trim().resize({ width: logoW }).png().toBuffer();
+  const lm = await sharp(logo).metadata();
+  await sharp(base)
+    .composite([
+      { input: veuTopo(W, H, ate), top: 0, left: 0 },
+      { input: logo, top: 28, left: Math.round((W - lm.width) / 2) },
+    ])
+    .jpeg(JPG)
+    .toFile(OUT(saida));
+  console.log('ok', saida);
+}
+
+// Ícone de calendário (traço Azul Céu, sem raio, como a RDR) para a caixa de datas.
+async function iconeCalendario() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#48A1F8" stroke-width="3">
+    <rect x="5" y="9" width="38" height="34"/>
+    <path d="M5 19h38M15 4v10M33 4v10"/>
+    <path d="M12 26h6v5h-6zM21 26h6v5h-6zM30 26h6v5h-6zM12 34h6v5h-6zM21 34h6v5h-6z" fill="#48A1F8" stroke="none"/>
+  </svg>`;
+  await sharp(Buffer.from(svg), { density: 300 }).resize({ width: 96 }).png({ compressionLevel: 9 }).toFile(OUT('icone-calendario.png'));
+  console.log('ok icone-calendario.png');
 }
 
 async function logosRdr() {
@@ -108,3 +166,7 @@ async function logosRdr() {
 for (const p of Object.values(PRODUTOS)) await banner(p);
 await composicao();
 await logosRdr();
+
+for (const p of Object.values(PRODUTOS)) await ofertao(await fachada(p), p.saida.replace('banner-', 'banner-ofertao-'));
+await ofertao(await fachadasTres(), 'banner-ofertao-opcoes.jpg');
+await iconeCalendario();
