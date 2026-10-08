@@ -155,6 +155,16 @@ async function iconeCalendario() {
   console.log('ok icone-calendario.png');
 }
 
+// Ícone de localização no mesmo traço do calendário (e-mail 04).
+async function iconeLocal() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#48A1F8" stroke-width="3">
+    <path d="M24 44S9 28.5 9 19a15 15 0 0 1 30 0c0 9.5-15 25-15 25z" stroke-linejoin="miter"/>
+    <circle cx="24" cy="19" r="5.5"/>
+  </svg>`;
+  await sharp(Buffer.from(svg), { density: 300 }).resize({ width: 96 }).png({ compressionLevel: 9 }).toFile(OUT('icone-local.png'));
+  console.log('ok icone-local.png');
+}
+
 async function logosRdr() {
   const DS = `${C}/design-system-rdr/public/assets/logo`;
   for (const [src, out] of [['rdr-logo-branco.svg', 'rdr-logo-branco.png'], ['rdr-logo-profundo.svg', 'rdr-logo-profundo.png']]) {
@@ -170,3 +180,4 @@ await logosRdr();
 for (const p of Object.values(PRODUTOS)) await ofertao(await fachada(p), p.saida.replace('banner-', 'banner-ofertao-'), FAIXA_OFERTAO);
 await ofertao(await fachadasTres(), 'banner-ofertao-opcoes.jpg', FAIXA_OFERTAO);
 await iconeCalendario();
+await iconeLocal();
