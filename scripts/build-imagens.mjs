@@ -16,19 +16,16 @@ const PRODUTOS = {
     foto: `${C}/soul-lp/public/assets/fachada.jpg`, pos: 'top',
     logo: `${C}/soul-lp/public/assets/soul-white.png`, logoW: 360,
     scrim: '12,74,92', saida: 'banner-soul-fonseca.jpg',
-    faixa: '#4CC1F0', // = acento do traço (scripts/lib/base.mjs)
   },
   sunin: {
     foto: `${C}/sun-in/public/assets/facade.jpg`, pos: 'top',
     logo: `${C}/sun-in/public/assets/sunin-logo-white.svg`, logoW: 360,
     scrim: '42,42,41', saida: 'banner-sun-in.jpg',
-    faixa: '#E3792A',
   },
   enredo: {
     foto: join(ROOT, 'SQUAD-RDR ENGENHARIA-VILLA ISABEL-IMG-FACHADA-R02.jpg'), pos: 'centre',
     logo: join(ROOT, 'logo novo enredo.svg'), logoW: 380,
     scrim: '46,49,146', saida: 'banner-novo-enredo.jpg',
-    faixa: '#F3C055',
   },
 };
 
@@ -114,7 +111,8 @@ async function fachadasTres() {
 // ---- Ofertão RDR (e-mail 02) ----
 // O banner cresce para cima: uma faixa (EXTRA px) segura o logo do Ofertão e o
 // degradê desce só um pouco sobre a fachada, que fica quase toda à mostra.
-// A faixa usa a cor do traço do produto; na composição dos três, branco.
+// A faixa é branca em todas as versões: o logo foi desenhado para fundo claro.
+const FAIXA_OFERTAO = '#FFFFFF';
 const OFERTAO = join(ROOT, 'img', 'logo-ofertao-rdr.png');
 export const OFERTAO_EXTRA = 280; // altura total: H + EXTRA (1200 × 1180 → 600 × 590 no e-mail)
 
@@ -169,6 +167,6 @@ for (const p of Object.values(PRODUTOS)) await banner(p);
 await composicao();
 await logosRdr();
 
-for (const p of Object.values(PRODUTOS)) await ofertao(await fachada(p), p.saida.replace('banner-', 'banner-ofertao-'), p.faixa);
-await ofertao(await fachadasTres(), 'banner-ofertao-opcoes.jpg', '#FFFFFF');
+for (const p of Object.values(PRODUTOS)) await ofertao(await fachada(p), p.saida.replace('banner-', 'banner-ofertao-'), FAIXA_OFERTAO);
+await ofertao(await fachadasTres(), 'banner-ofertao-opcoes.jpg', FAIXA_OFERTAO);
 await iconeCalendario();
