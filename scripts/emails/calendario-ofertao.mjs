@@ -65,7 +65,8 @@ const ICONES = { Data: 'icone-calendario.png', Datas: 'icone-calendario.png', Lo
 function boxServico(box, { margem = '4px 0 28px 0', fim = '' } = {}) {
   const itens = t(box.text).split('\n').map((l) => {
     const m = l.match(/^(Data|Local|Horário): (.+)$/);
-    const [rotulo, valor] = m ? [m[1], m[2]] : [/ e |, e /.test(l) ? 'Datas' : 'Data', l];
+    // data única sem rótulo: "Hoje, 06 de novembro" → só a data (o rótulo já diz "Data")
+    const [rotulo, valor] = m ? [m[1], m[2]] : / e |, e /.test(l) ? ['Datas', l] : ['Data', l.replace(/^Hoje, /, '')];
     return [ICONES[rotulo], rotulo, valor];
   });
   return caixaServico(box.title, itens, { margem, fim });
@@ -208,7 +209,7 @@ function emailConfirmado(x) {
   const [, ...paragrafos] = c.body.map(t);
   // 05 e 06/11: o atendimento é no próprio dia do envio, então a data vai escrita
   const dd = x.data.slice(8);
-  const box = dd === '04' ? c.box : { ...c.box, text: c.box.text.replace('[Data agendada]', `Hoje, ${dd} de novembro`) };
+  const box = dd === '04' ? c.box : { ...c.box, text: c.box.text.replace('[Data agendada]', `${dd} de novembro`) };
   return montar({
     x: { ...x, nivel: 'AGENDADOS' },
     c,
