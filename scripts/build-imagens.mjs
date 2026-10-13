@@ -286,10 +286,12 @@ async function bannerFeirao() {
   console.log('ok banner-ofertao-feirao.jpg');
 }
 
-// ---- E-mail 11: tarja "É AMANHÃ!" (como a do Feirão) + Ofertão com a assinatura RDR ----
-async function bannerAmanha() {
+// ---- E-mail 11 e semana 4: tarja da chamada (como a do Feirão) + Ofertão com a assinatura RDR ----
+const TARJA_CHAMADA = { tamanho: 64, padX: 48, altura: 112 };
+
+async function bannerChamada(texto, saida) {
   const FW = 1200;
-  const selo = tarja('É AMANHÃ!', FW, 48, { tamanho: 64, padX: 48, altura: 112 });
+  const selo = tarja(texto, FW, 48, TARJA_CHAMADA);
   const logo = await sharp(OFERTAO).trim().resize({ width: 680 }).png().toBuffer();
   const lm = await sharp(logo).metadata();
   const logoY = 48 + selo.altura + 36;
@@ -301,8 +303,39 @@ async function bannerAmanha() {
   await sharp(svg)
     .composite([{ input: logo, top: logoY, left: Math.round((FW - lm.width) / 2) }])
     .jpeg(JPG)
-    .toFile(OUT('banner-ofertao-amanha.jpg'));
-  console.log('ok banner-ofertao-amanha.jpg', `${FW}x${FH}`);
+    .toFile(OUT(saida));
+  console.log('ok', saida, `${FW}x${FH}`);
+}
+
+// ---- Semana 4 do calendário: chamada do dia por banner (geral e por empreendimento) ----
+// (mesmas chaves de DIAS em scripts/emails/calendario-ofertao.mjs)
+const CHAMADAS = {
+  convite: '05 E 06 DE NOVEMBRO',
+  amanha: 'É AMANHÃ!',
+  hoje: 'COMEÇA HOJE!',
+  'ultimo-dia': 'ÚLTIMO DIA!',
+};
+
+// Banner do Ofertão do produto com a tarja da chamada acima do logo:
+// a faixa branca cresce para baixo na altura da tarja (1200 × 1312 → 600 × 656).
+async function ofertaoChamada(base, saida, texto) {
+  const TOPO = 40, GAP = 4;
+  const selo = tarja(texto, W, TOPO, { ...TARJA_CHAMADA, tamanho: 56, altura: 100 });
+  const desloca = TOPO + selo.altura + GAP - 12; // o logo já começa 36px abaixo do topo
+  const extra = OFERTAO_EXTRA + desloca;
+  const HT = H + extra;
+  const logo = await sharp(OFERTAO).trim().resize({ width: 620 }).png().toBuffer();
+  const lm = await sharp(logo).metadata();
+  await sharp({ create: { width: W, height: HT, channels: 3, background: FAIXA_OFERTAO } })
+    .composite([
+      { input: base, top: extra, left: 0 },
+      { input: veuTopo(W, HT, extra, 260, FAIXA_OFERTAO), top: 0, left: 0 },
+      { input: Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${HT}">${selo.svg}</svg>`), top: 0, left: 0 },
+      { input: logo, top: 36 + desloca, left: Math.round((W - lm.width) / 2) },
+    ])
+    .jpeg(JPG)
+    .toFile(OUT(saida));
+  console.log('ok', saida, `${W}x${HT}`);
 }
 
 async function logosRdr() {
@@ -325,4 +358,9 @@ await aberturaRdr();
 for (const p of Object.values(PRODUTOS)) await cartao(p);
 await iconeHorario();
 await bannerFeirao();
-await bannerAmanha();
+for (const [dia, texto] of Object.entries(CHAMADAS)) {
+  await bannerChamada(texto, `banner-ofertao-${dia}.jpg`); // amanha = e-mail 11
+  for (const p of Object.values(PRODUTOS)) {
+    await ofertaoChamada(await fachada(p), p.saida.replace('banner-', 'banner-ofertao-').replace('.jpg', `-${dia}.jpg`), texto);
+  }
+}

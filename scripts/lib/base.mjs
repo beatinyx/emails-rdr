@@ -167,10 +167,16 @@ export const linhaEvento = (icone, rotulo, valor, ultima) => `
 // Caixa do evento: título, Datas / Local / Atendimento do Ofertão e, opcionalmente, um parágrafo final.
 // datas: { rotulo, valor } da primeira linha (padrão: o período do Ofertão).
 export function caixaEvento(titulo, { fim = '', margem = '4px 0 8px 0', datas = { rotulo: 'Datas', valor: OFERTAO.periodo } } = {}) {
-  const linhas =
-    linhaEvento('icone-calendario.png', datas.rotulo, datas.valor) +
-    linhaEvento('icone-local.png', 'Local', OFERTAO.local) +
-    linhaEvento('icone-horario.png', 'Atendimento', OFERTAO.horarios, true);
+  return caixaServico(titulo, [
+    ['icone-calendario.png', datas.rotulo, datas.valor],
+    ['icone-local.png', 'Local', OFERTAO.local],
+    ['icone-horario.png', 'Atendimento', OFERTAO.horarios],
+  ], { fim, margem });
+}
+
+// Caixa de serviço com linhas livres: [[icone, rotulo, valor], ...] na ordem dada.
+export function caixaServico(titulo, itens, { fim = '', margem = '4px 0 8px 0' } = {}) {
+  const linhas = itens.map(([icone, rotulo, valor], i) => linhaEvento(icone, rotulo, valor, i === itens.length - 1)).join('');
   return `
               <!-- Caixa do evento -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:${margem};">
@@ -300,7 +306,10 @@ export function blocoRodape(legais) {
 // acoes:     HTML pronto no lugar do botão único (vários botões)
 // saudacao:  primeira linha do corpo (padrão "Olá, {{NOME}}.")
 // cssMobile: regras extras dentro da media query de celular
-export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = 'Olá, {{NOME}}.' }) {
+// apoio:     linha curta abaixo do título (tipologia, bairro)
+// compacto:  título menor, para chamadas longas
+export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = 'Olá, {{NOME}}.', apoio = '', compacto = false }) {
+  const [tam, alt] = compacto ? [32, 37] : [40, 44];
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="pt-BR">
 <head>
@@ -373,7 +382,8 @@ ${banner}
           <tr>
             <td class="rdr-gutter" align="left" style="padding:48px 48px 8px 48px;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td width="40" height="4" style="width:40px; height:4px; background-color:${RDR.ceu}; font-size:0; line-height:0;">&nbsp;</td></tr></table>
-              <h1 class="rdr-titulo" style="margin:20px 0 28px 0; font-family:${FONTE_DISPLAY}; font-size:40px; line-height:44px; font-weight:300; letter-spacing:-0.4px; text-transform:uppercase; color:${RDR.azul};">${titulo}</h1>
+              <h1 class="rdr-titulo" style="margin:20px 0 ${apoio ? 12 : 28}px 0; font-family:${FONTE_DISPLAY}; font-size:${tam}px; line-height:${alt}px; font-weight:300; letter-spacing:-0.4px; text-transform:uppercase; color:${RDR.azul};">${titulo}</h1>${apoio ? `
+              <p style="margin:0 0 28px 0; font-family:${FONTE_TEXTO}; font-size:15px; line-height:22px; font-weight:bold; letter-spacing:0.3px; color:${RDR.muted};">${apoio}</p>` : ''}
               ${p(saudacao)}${corpo}
             </td>
           </tr>
