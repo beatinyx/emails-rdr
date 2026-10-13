@@ -206,12 +206,15 @@ function emailConfirmado(x) {
   const c = x.copy.confirmed;
   const e = PRODUTO[x.chave];
   const [, ...paragrafos] = c.body.map(t);
+  // 05 e 06/11: o atendimento é no próprio dia do envio, então a data vai escrita
+  const dd = x.data.slice(8);
+  const box = dd === '04' ? c.box : { ...c.box, text: c.box.text.replace('[Data agendada]', `Hoje, ${dd} de novembro`) };
   return montar({
     x: { ...x, nivel: 'AGENDADOS' },
     c,
     versao: `Semana 4 · quem já agendou · ${e ? e.nome : 'versão geral'} · ${x.dia} (substitui o convite)`,
     banner: bannerDia(e, DIAS[x.data.slice(8)]),
-    corpo: paragrafos.map((txt, i) => p(txt, i === paragrafos.length - 1 ? ' margin-bottom:24px;' : '')).join('') + boxServico(c.box, { margem: '4px 0 12px 0' }),
+    corpo: paragrafos.map((txt, i) => p(txt, i === paragrafos.length - 1 ? ' margin-bottom:24px;' : '')).join('') + boxServico(box, { margem: '4px 0 12px 0' }),
     cta: c.cta,
     destino: c.destination,
     legais: e ? [e.legal] : Object.values(EMPREENDIMENTOS).map((y) => y.legal),
