@@ -11,3 +11,4 @@ await import('./emails/08-veja-as-opcoes-e-agende.mjs');
 await import('./emails/09-feirao-ofertao.mjs');
 await import('./emails/10-qual-opcao-combina.mjs');
 await import('./emails/11-amanha-ofertao.mjs');
+await import('./emails/calendario-ofertao.mjs');
