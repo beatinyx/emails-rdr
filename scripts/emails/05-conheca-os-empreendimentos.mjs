@@ -3,7 +3,7 @@
 // de apoio do KV), lado a lado no desktop e empilhado no celular; um botão por produto.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, IMG, RDR,
-  p, CSS_COLUNAS, documento, gravar, WHATSAPP,
+  p, CSS_COLUNAS, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const { soul, sunin, enredo } = EMPREENDIMENTOS;
@@ -66,7 +66,7 @@ function botoes() {
 const html = documento({
   email: '05 · Conheça os empreendimentos da RDR',
   fonte: 'scripts/emails/05-conheca-os-empreendimentos.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, DESCADASTRO],
   titulo: 'Conheça os empreendimentos da RDR',
   assunto: 'Conheça os empreendimentos da RDR',
   preheader: 'Soul Fonseca, Sun In e Novo Enredo: três opções para seus próximos planos.',

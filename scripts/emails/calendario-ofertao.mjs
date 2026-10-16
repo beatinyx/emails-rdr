@@ -8,7 +8,7 @@ import { join } from 'node:path';
 import {
   ROOT, EMPREENDIMENTOS, FONTE_TEXTO, IMG, OFERTAO, RDR,
   p, caixaApoio, caixaServico, blocoBanner, blocoTraco, documento, gravar,
-  CSS_CAIXA_EVENTO, CSS_COLUNAS, WHATSAPP,
+  CSS_CAIXA_EVENTO, CSS_COLUNAS, WHATSAPP, NOME,
 } from '../lib/base.mjs';
 
 const FONTE = 'scripts/emails/calendario-ofertao.mjs';
@@ -27,7 +27,7 @@ const DIAS = {
 // ---- Campos do planejamento ([Nome], [Link ...]) → merge tags ----
 const tag = (nome) => nome.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().replace(/\s+/g, '_');
 const TAGS = [
-  [/\[Nome\]/g, '{{NOME}}'],
+  [/\[Nome\]/g, NOME],
   [/\[Link de simulação do (.+?)\]/g, (_, n) => `{{LINK_SIMULACAO_${tag(n)}}}`],
   [/\[Link para conhecer o (.+?)\]/g, (_, n) => `{{LINK_${tag(n)}}}`],
   [/\[Link de agendamento do (.+?) no Ofertão\]/g, (_, n) => `{{LINK_AGENDAMENTO_${tag(n)}}}`],
@@ -144,7 +144,7 @@ function montar({ x, c, versao, banner, corpo, cta, legais, cssMobile = CSS_CAIX
     legais,
     cssMobile,
   });
-  const vars = [...new Set(html.match(/\{\{[A-Z_]+\}\}/g))];
+  const vars = [...new Set(html.match(/\{\{[A-Z_]+\}\}|\*\|+[A-Z_]+\|+\*/g))];
   return html.replace('@@VARIAVEIS@@', vars.join(' · '));
 }
 

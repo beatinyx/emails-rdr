@@ -117,6 +117,10 @@ export function caixaApoio(c, html, { comentario = '', margem = '4px 0 28px 0' }
 // ---- Contato: todos os botões levam ao WhatsApp da RDR (0800 000 5667) ----
 export const WHATSAPP = 'https://wa.me/5508000005667';
 
+// ---- Variáveis do RD Station Marketing (preenchidas no disparo) ----
+export const NOME = '*|PRIMEIRO_NOME|*';
+export const DESCADASTRO = '*||UNSUBSCRIBE_LINK||*';
+
 // ---- Ofertão RDR: dados do evento (uma fonte só para todos os e-mails) ----
 export const OFERTAO = {
   periodo: '22 a 29/10', // e-mails 06, 09 e 10
@@ -294,7 +298,7 @@ export function blocoRodape(legais) {
               <div style="height:24px; line-height:24px; font-size:0;">&nbsp;</div>
               ${linhas}
               <p style="margin:0 0 10px 0; font-family:${FONTE_TEXTO}; font-size:11px; line-height:17px; color:#A9B6CB;">${LEGAL_COMUM}</p>
-              <p style="margin:18px 0 0 0; font-family:${FONTE_TEXTO}; font-size:12px; line-height:18px; color:#C9D3E2;">Você recebeu este e-mail porque demonstrou interesse nos empreendimentos da RDR Engenharia. Se não quiser mais receber nossas mensagens, <a href="{{LINK_DESCADASTRO}}" target="_blank" style="color:#FFFFFF; text-decoration:underline;">descadastre-se aqui</a>.</p>
+              <p style="margin:18px 0 0 0; font-family:${FONTE_TEXTO}; font-size:12px; line-height:18px; color:#C9D3E2;">Você recebeu este e-mail porque demonstrou interesse nos empreendimentos da RDR Engenharia. Se não quiser mais receber nossas mensagens, <a href="${DESCADASTRO}" target="_blank" style="color:#FFFFFF; text-decoration:underline;">descadastre-se aqui</a>.</p>
               <p style="margin:14px 0 0 0; font-family:${FONTE_TEXTO}; font-size:12px; line-height:18px; color:#C9D3E2;">RDR Engenharia · Avenida Álvares Cabral, 1777, sala 509, Santo Agostinho · Belo Horizonte - MG, Brasil</p>
             </td>
           </tr>`;
@@ -307,11 +311,11 @@ export function blocoRodape(legais) {
 // variaveis: merge tags usadas nesta peça
 // botao:     { texto, link } — sempre logo depois do corpo
 // acoes:     HTML pronto no lugar do botão único (vários botões)
-// saudacao:  primeira linha do corpo (padrão "Olá, {{NOME}}.")
+// saudacao:  primeira linha do corpo (padrão "Olá, primeiro nome.")
 // cssMobile: regras extras dentro da media query de celular
 // apoio:     linha curta abaixo do título (tipologia, bairro)
 // compacto:  título menor, para chamadas longas
-export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = 'Olá, {{NOME}}.', apoio = '', compacto = false }) {
+export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = `Olá, ${NOME}.`, apoio = '', compacto = false }) {
   const [tam, alt] = compacto ? [32, 37] : [40, 44];
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="pt-BR">

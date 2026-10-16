@@ -3,7 +3,7 @@
 // dentro do box); caixa do evento como lembrete no fim.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, IMG, OFERTAO, RDR, BANNER_FEIRAO,
-  p, caixaEvento, CSS_CAIXA_EVENTO, CSS_COLUNAS, documento, gravar, WHATSAPP,
+  p, caixaEvento, CSS_CAIXA_EVENTO, CSS_COLUNAS, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const { soul, sunin, enredo } = EMPREENDIMENTOS;
@@ -62,7 +62,7 @@ const titulo = 'Qual dessas opções combina com seus planos?';
 const html = documento({
   email: '10 · Qual dessas opções combina com seus planos? (Ofertão RDR · Feirão de imóveis)',
   fonte: 'scripts/emails/10-qual-opcao-combina.mjs',
-  variaveis: ['{{NOME}}', OFERTAO.local, OFERTAO.horarios, '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, OFERTAO.local, OFERTAO.horarios, DESCADASTRO],
   titulo,
   assunto: titulo,
   preheader: 'No Ofertão RDR, conheça três empreendimentos e converse com nossa equipe sobre as possibilidades de compra.',
@@ -70,7 +70,7 @@ const html = documento({
        Assunto:     ${titulo}
        Específicas: ${OFERTAO.local} · ${OFERTAO.horarios}`,
   banner: BANNER_FEIRAO,
-  saudacao: 'Olá, {{NOME}}, tudo bem?',
+  saudacao: `Olá, ${NOME}, tudo bem?`,
   corpo:
     p('No Ofertão RDR, você poderá conhecer melhor três empreendimentos e conversar com nossa equipe sobre as possibilidades de compra.') +
     p('Confira as opções e escolha qual gostaria de conhecer:', ' margin-bottom:24px;') +

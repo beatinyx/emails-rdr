@@ -1,13 +1,13 @@
 // E-mail 01 "Veja as opções": 6 versões por empreendimento (com e sem novidade) + sem produto.
 import {
   EMPREENDIMENTOS, TRACO_TRES,
-  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
+  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const BASE = {
   email: '01 · Veja as opções',
   fonte: 'scripts/emails/01-veja-as-opcoes.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, DESCADASTRO],
   titulo: 'Veja as opções',
   assunto: 'Veja as opções',
   botao: { texto: 'Quero uma simulação', link: WHATSAPP },

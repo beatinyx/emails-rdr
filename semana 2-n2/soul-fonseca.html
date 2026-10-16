@@ -16,7 +16,7 @@
        Código:      S2_N2_SOUL_FONSECA_EMAIL_2110
        Assunto:     Soul Fonseca: menos despesas na compra do seu imóvel
        Validar:     Validar a economia de R$ 12 mil e a aplicabilidade de ITBI e registro grátis. Sem confirmação do valor, retirar a linha de economia e manter somente o benefício validado.
-       Variáveis: {{NOME}} · {{CONDICOES_COMERCIAIS}} · {{LINK_DESCADASTRO}}
+       Variáveis: *|PRIMEIRO_NOME|* · {{CONDICOES_COMERCIAIS}} · *||UNSUBSCRIBE_LINK||*
        Imagens:   servidas de https://raw.githubusercontent.com/beatinyx/emails-rdr/main/img/
        Gerado por scripts/emails/calendario-ofertao.mjs (editar lá, não aqui)
        ============================================================ -->
@@ -89,7 +89,7 @@
               <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td width="40" height="4" style="width:40px; height:4px; background-color:#48A1F8; font-size:0; line-height:0;">&nbsp;</td></tr></table>
               <h1 class="rdr-titulo" style="margin:20px 0 12px 0; font-family:'Srotone', 'Merta Sans', Arial, Helvetica, sans-serif; font-size:32px; line-height:37px; font-weight:300; letter-spacing:-0.4px; text-transform:uppercase; color:#1E2BBB;">Menos despesas para dar o próximo passo.</h1>
               <p style="margin:0 0 28px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:15px; line-height:22px; font-weight:bold; letter-spacing:0.3px; color:#5E6A80;">Soul Fonseca · 2 quartos no Fonseca, Niterói</p>
-              <p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F;">Olá, {{NOME}}, tudo bem?</p><p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F;">Gostaríamos de apresentar um benefício que pode fazer diferença na sua análise de compra: ITBI e registro grátis no Soul Fonseca.</p><p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F; margin-bottom:24px;">No Soul Fonseca, você encontra apartamentos de 2 quartos no Fonseca, em Niterói, com lazer completo. E pode contar com ITBI e registro grátis, conforme as condições da campanha.</p>
+              <p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F;">Olá, *|PRIMEIRO_NOME|*, tudo bem?</p><p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F;">Gostaríamos de apresentar um benefício que pode fazer diferença na sua análise de compra: ITBI e registro grátis no Soul Fonseca.</p><p style="margin:0 0 20px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:17px; line-height:27px; color:#26344F; margin-bottom:24px;">No Soul Fonseca, você encontra apartamentos de 2 quartos no Fonseca, em Niterói, com lazer completo. E pode contar com ITBI e registro grátis, conforme as condições da campanha.</p>
               <!-- Box: ITBI E REGISTRO GRÁTIS* -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 28px 0;">
                 <tr>
@@ -131,7 +131,7 @@
               <p style="margin:0 0 10px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:11px; line-height:17px; color:#A9B6CB;">* {{CONDICOES_COMERCIAIS}}</p>
               <p style="margin:0 0 10px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:11px; line-height:17px; color:#A9B6CB;">Condomínio Soul Fonseca — Protocolo 91.328, R-7-27.586 do Cartório do 14º Ofício de Registro de Imóveis do 4º subdistrito do 1º distrito de Niterói - RJ.</p>
               <p style="margin:0 0 10px 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:11px; line-height:17px; color:#A9B6CB;">Imagens meramente ilustrativas. Informações sobre acabamentos, decoração e mobiliários constam no memorial descritivo. Consulte condições e unidades disponíveis.</p>
-              <p style="margin:18px 0 0 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#C9D3E2;">Você recebeu este e-mail porque demonstrou interesse nos empreendimentos da RDR Engenharia. Se não quiser mais receber nossas mensagens, <a href="{{LINK_DESCADASTRO}}" target="_blank" style="color:#FFFFFF; text-decoration:underline;">descadastre-se aqui</a>.</p>
+              <p style="margin:18px 0 0 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#C9D3E2;">Você recebeu este e-mail porque demonstrou interesse nos empreendimentos da RDR Engenharia. Se não quiser mais receber nossas mensagens, <a href="*||UNSUBSCRIBE_LINK||*" target="_blank" style="color:#FFFFFF; text-decoration:underline;">descadastre-se aqui</a>.</p>
               <p style="margin:14px 0 0 0; font-family:'Merta Sans', Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#C9D3E2;">RDR Engenharia · Avenida Álvares Cabral, 1777, sala 509, Santo Agostinho · Belo Horizonte - MG, Brasil</p>
             </td>
           </tr>
