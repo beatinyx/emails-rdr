@@ -3,7 +3,7 @@
 import {
   EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
-  blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
+  blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
 } from '../lib/base.mjs';
 
 const DATAS = OFERTAO.periodo;
@@ -11,7 +11,7 @@ const DATAS = OFERTAO.periodo;
 const html = documento({
   email: '06 · Conheça e tire suas dúvidas (Ofertão RDR)',
   fonte: 'scripts/emails/06-conheca-e-tire-suas-duvidas.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_AGENDAMENTO}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
   titulo: 'Conheça e tire suas dúvidas',
   assunto: 'Conheça e tire suas dúvidas',
   preheader: 'O Ofertão RDR reúne atendimento para apresentar os empreendimentos e esclarecer suas dúvidas.',
@@ -33,7 +33,7 @@ const html = documento({
       `Os encontros acontecem de ${destaque(DATAS)}. Escolha o empreendimento e a data para conferir o local e os horários disponíveis.`,
       { margem: '4px 0 8px 0' },
     ),
-  botao: { texto: 'Quero escolher uma data', link: '{{LINK_AGENDAMENTO}}', larguraVml: 320 },
+  botao: { texto: 'Quero escolher uma data', link: WHATSAPP, larguraVml: 320 },
   legais: Object.values(EMPREENDIMENTOS).map((e) => e.legal),
   cssMobile: CSS_CAIXA_ENCONTRO,
 });

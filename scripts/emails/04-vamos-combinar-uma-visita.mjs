@@ -2,7 +2,7 @@
 // Reaproveita o banner do Ofertão e a caixa Azul Profundo do convite (e-mail 02).
 import {
   EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
-  p, destaque, linhaIcone as linha, caixaEncontro, CSS_CAIXA_ENCONTRO, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
+  p, destaque, linhaIcone as linha, caixaEncontro, CSS_CAIXA_ENCONTRO, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
 } from '../lib/base.mjs';
 
 const DATA = OFERTAO.data;
@@ -13,7 +13,7 @@ const BASE = {
   fonte: 'scripts/emails/04-vamos-combinar-uma-visita.mjs',
   titulo: 'Vamos combinar uma visita?',
   assunto: 'Vamos combinar uma visita?',
-  botao: { texto: 'Quero escolher um horário', link: '{{LINK_HORARIO}}', larguraVml: 340 },
+  botao: { texto: 'Quero escolher um horário', link: WHATSAPP, larguraVml: 340 },
   cssMobile: CSS_CAIXA_ENCONTRO,
 };
 
@@ -22,7 +22,7 @@ const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
   rotulo: e.nome,
   html: documento({
     ...BASE,
-    variaveis: ['{{NOME}}', LOCAL, '{{LINK_HORARIO}}', '{{LINK_DESCADASTRO}}'],
+    variaveis: ['{{NOME}}', LOCAL, '{{LINK_DESCADASTRO}}'],
     preheader: `Conheça o ${e.nome} no próximo encontro da RDR e tire suas dúvidas com um corretor.`,
     cabecalho: `       Versão:      ${e.nome}
        Assunto:     ${BASE.assunto}
@@ -44,7 +44,7 @@ versoes.push({
   rotulo: 'Sem produto identificado',
   html: documento({
     ...BASE,
-    variaveis: ['{{NOME}}', '{{LINK_HORARIO}}', '{{LINK_DESCADASTRO}}'],
+    variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
     preheader: 'Conheça as opções da RDR no próximo encontro e tire suas dúvidas com um corretor.',
     cabecalho: `       Versão:      sem produto identificado (Soul Fonseca, Sun In e Novo Enredo)
        Assunto:     ${BASE.assunto}

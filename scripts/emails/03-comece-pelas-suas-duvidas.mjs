@@ -2,16 +2,16 @@
 // Reaproveita os banners, o traço e as caixas de apoio do e-mail 01.
 import {
   EMPREENDIMENTOS, RDR, TRACO_TRES,
-  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar,
+  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
 } from '../lib/base.mjs';
 
 const BASE = {
   email: '03 · Comece pelas suas dúvidas',
   fonte: 'scripts/emails/03-comece-pelas-suas-duvidas.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_SIMULACAO}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
   titulo: 'Comece pelas suas dúvidas',
   assunto: 'Comece pelas suas dúvidas',
-  botao: { texto: 'Quero uma simulação', link: '{{LINK_SIMULACAO}}' },
+  botao: { texto: 'Quero uma simulação', link: WHATSAPP },
 };
 
 const ATENDIMENTO = p('Se quiser conhecer pessoalmente, teremos atendimento entre 22 e 29/10.', ' margin-bottom:12px;');
