@@ -56,6 +56,7 @@ const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
   rotulo: e.nome,
   html: documento({
     ...BASE,
+    botao: { ...BASE.botao, link: e.whatsapp },
     cabecalho: `       Versão:      ${e.nome}
        Assunto:     ${BASE.assunto}
        Específicas: nenhuma`,

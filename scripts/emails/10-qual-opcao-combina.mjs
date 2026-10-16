@@ -3,15 +3,15 @@
 // dentro do box); caixa do evento como lembrete no fim.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, IMG, OFERTAO, RDR, BANNER_FEIRAO,
-  p, caixaEvento, CSS_CAIXA_EVENTO, CSS_COLUNAS, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
+  p, caixaEvento, CSS_CAIXA_EVENTO, CSS_COLUNAS, documento, gravar, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const { soul, sunin, enredo } = EMPREENDIMENTOS;
 
 const PRODUTOS = [
-  { e: soul, linhas: ['2 quartos no Fonseca, em Niterói.', 'Lazer completo e exclusivo.'], link: WHATSAPP },
-  { e: sunin, linhas: ['Studios para morar e investir no Ingá, em Niterói.', 'Lazer no rooftop.'], link: WHATSAPP },
-  { e: enredo, linhas: ['2 quartos na Vila Isabel, no Rio de Janeiro.', 'Áreas de lazer mobiliadas.'], link: WHATSAPP },
+  { e: soul, linhas: ['2 quartos no Fonseca, em Niterói.', 'Lazer completo e exclusivo.'], link: soul.whatsapp },
+  { e: sunin, linhas: ['Studios para morar e investir no Ingá, em Niterói.', 'Lazer no rooftop.'], link: sunin.whatsapp },
+  { e: enredo, linhas: ['2 quartos na Vila Isabel, no Rio de Janeiro.', 'Áreas de lazer mobiliadas.'], link: enredo.whatsapp },
 ];
 
 // Botão do produto: Azul RDR na largura do box, traço do produto à esquerda.

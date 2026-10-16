@@ -31,6 +31,7 @@ for (const e of Object.values(EMPREENDIMENTOS)) {
       rotulo: `${e.nome} · ${comNovidade ? 'com novidade confirmada' : 'sem novidade (argumento)'}`,
       html: documento({
         ...BASE,
+        botao: { ...BASE.botao, link: e.whatsapp },
         preheader: comNovidade
           ? `Uma informação sobre o ${e.nome} para você.`
           : `Um ponto do ${e.nome} que vale conhecer.`,

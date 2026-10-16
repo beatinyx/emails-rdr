@@ -21,11 +21,20 @@ export const RDR = {
 export const FONTE_TEXTO = "'Merta Sans', Arial, Helvetica, sans-serif";
 export const FONTE_DISPLAY = "'Srotone', 'Merta Sans', Arial, Helvetica, sans-serif";
 
+// ---- Contato: os botões levam ao WhatsApp da RDR (0800 000 5667) ----
+// Versão de um empreendimento: mensagem pronta citando o produto; versão geral: só o número.
+export const WHATSAPP = 'https://wa.me/558000005667';
+const whatsapp = (nome) => {
+  const texto = `Olá! Já conversei com a RDR sobre o ${nome} e tenho interesse novamente. Quero retomar minha negociação e fazer uma nova simulação.`;
+  return `${WHATSAPP}?text=${encodeURIComponent(texto).replace(/!/g, '%21')}`;
+};
+
 // ---- Empreendimentos: cor de apoio do KV para a caixa + texto legal ----
 export const EMPREENDIMENTOS = {
   soul: {
     slug: 'soul-fonseca',
     nome: 'Soul Fonseca',
+    whatsapp: whatsapp('Soul Fonseca'),
     local: 'Fonseca · Niterói',
     acento: '#4CC1F0', // traço abaixo do banner (antes ficava sobre o logo)
     banner: 'banner-soul-fonseca.jpg',
@@ -42,6 +51,7 @@ export const EMPREENDIMENTOS = {
   sunin: {
     slug: 'sun-in',
     nome: 'Sun In',
+    whatsapp: whatsapp('Sun In'),
     local: 'Ingá · Niterói',
     acento: '#E3792A',
     banner: 'banner-sun-in.jpg',
@@ -57,6 +67,7 @@ export const EMPREENDIMENTOS = {
   enredo: {
     slug: 'novo-enredo',
     nome: 'Novo Enredo',
+    whatsapp: whatsapp('Novo Enredo'),
     local: 'Vila Isabel',
     acento: '#F3C055',
     banner: 'banner-novo-enredo.jpg',
@@ -113,9 +124,6 @@ export function caixaApoio(c, html, { comentario = '', margem = '4px 0 28px 0' }
                 </tr>
               </table>`;
 }
-
-// ---- Contato: todos os botões levam ao WhatsApp da RDR (0800 000 5667) ----
-export const WHATSAPP = 'https://wa.me/5508000005667';
 
 // ---- Variáveis do RD Station Marketing (preenchidas no disparo) ----
 export const NOME = '*|PRIMEIRO_NOME|*';
