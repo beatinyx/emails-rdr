@@ -114,6 +114,9 @@ export function caixaApoio(c, html, { comentario = '', margem = '4px 0 28px 0' }
               </table>`;
 }
 
+// ---- Contato: todos os botões levam ao WhatsApp da RDR (0800 000 5667) ----
+export const WHATSAPP = 'https://wa.me/5508000005667';
+
 // ---- Ofertão RDR: dados do evento (uma fonte só para todos os e-mails) ----
 export const OFERTAO = {
   periodo: '22 a 29/10', // e-mails 06, 09 e 10

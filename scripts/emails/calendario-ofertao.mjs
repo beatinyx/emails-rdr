@@ -8,7 +8,7 @@ import { join } from 'node:path';
 import {
   ROOT, EMPREENDIMENTOS, FONTE_TEXTO, IMG, OFERTAO, RDR,
   p, caixaApoio, caixaServico, blocoBanner, blocoTraco, documento, gravar,
-  CSS_CAIXA_EVENTO, CSS_COLUNAS,
+  CSS_CAIXA_EVENTO, CSS_COLUNAS, WHATSAPP,
 } from '../lib/base.mjs';
 
 const FONTE = 'scripts/emails/calendario-ofertao.mjs';
@@ -119,7 +119,7 @@ const codigo = (x, sufixo = '') =>
   `S${x.semana}_${x.nivel}_${x.chave === 'general' ? 'OFERTAO' : tag(x.produto)}_EMAIL_${x.data.slice(8)}${x.data.slice(5, 7)}${sufixo}`;
 
 // c: copy (ou a versão confirmada), x: o envio; versao: rótulo do cabeçalho.
-function montar({ x, c, versao, banner, corpo, cta, destino, legais, cssMobile = CSS_CAIXA_EVENTO, sufixo = '', notas = [] }) {
+function montar({ x, c, versao, banner, corpo, cta, legais, cssMobile = CSS_CAIXA_EVENTO, sufixo = '', notas = [] }) {
   const titulo = t(c.headline);
   const html = documento({
     email: `Calendário do Ofertão · ${versao}`,
@@ -140,7 +140,7 @@ function montar({ x, c, versao, banner, corpo, cta, destino, legais, cssMobile =
     banner,
     saudacao: t(c.body[0]),
     corpo,
-    botao: { texto: cta, link: t(destino), larguraVml: larguraVml(cta) },
+    botao: { texto: cta, link: WHATSAPP, larguraVml: larguraVml(cta) },
     legais,
     cssMobile,
   });
@@ -168,7 +168,6 @@ function emailSemana(x) {
     banner: bannerFachada(e),
     corpo,
     cta: x.cta,
-    destino: c.destination,
     legais: [...(c.legal ? [CONDICOES] : []), e.legal],
     notas: [c.validation],
   });
@@ -194,7 +193,6 @@ function emailEvento(x) {
     banner: bannerDia(e, dia),
     corpo,
     cta: x.cta,
-    destino: c.destination,
     legais: e ? [e.legal] : Object.values(EMPREENDIMENTOS).map((y) => y.legal),
     cssMobile: CSS_CAIXA_EVENTO + (c.products ? CSS_COLUNAS + `
       .rdr-col-txt { padding:18px 20px 20px 20px !important; }` : ''),
@@ -217,7 +215,6 @@ function emailConfirmado(x) {
     banner: bannerDia(e, DIAS[x.data.slice(8)]),
     corpo: paragrafos.map((txt, i) => p(txt, i === paragrafos.length - 1 ? ' margin-bottom:24px;' : '')).join('') + boxServico(box, { margem: '4px 0 12px 0' }),
     cta: c.cta,
-    destino: c.destination,
     legais: e ? [e.legal] : Object.values(EMPREENDIMENTOS).map((y) => y.legal),
     sufixo: '_CONFIRMADO',
     notas: ['Enviar só para quem tem atendimento agendado; quem recebe esta versão não recebe o convite do dia.'],

@@ -3,7 +3,7 @@
 import {
   EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
-  blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
+  blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
 } from '../lib/base.mjs';
 
 const DATA = OFERTAO.data;
@@ -11,7 +11,7 @@ const DATA = OFERTAO.data;
 const html = documento({
   email: '08 · Veja as opções e agende sua visita (Ofertão RDR)',
   fonte: 'scripts/emails/08-veja-as-opcoes-e-agende.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_AGENDAMENTO}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
   titulo: 'Veja as opções e agende sua visita',
   assunto: 'Veja as opções e agende sua visita',
   preheader: `O próximo encontro da RDR será em ${DATA}. Escolha o empreendimento e combine um horário.`,
@@ -32,7 +32,7 @@ const html = documento({
     ) +
     '\n              ' +
     p('Escolha o empreendimento para conferir onde será o atendimento e combinar um horário.', ' margin-bottom:12px;'),
-  botao: { texto: 'Quero agendar uma visita', link: '{{LINK_AGENDAMENTO}}', larguraVml: 320 },
+  botao: { texto: 'Quero agendar uma visita', link: WHATSAPP, larguraVml: 320 },
   legais: Object.values(EMPREENDIMENTOS).map((e) => e.legal),
   cssMobile: CSS_CAIXA_ENCONTRO,
 });

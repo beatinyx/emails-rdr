@@ -1,7 +1,7 @@
 // E-mail 02 "Vamos conhecer as opções?" (Ofertão RDR): 3 versões por empreendimento + sem produto.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, FONTE_DISPLAY, IMG, RDR, TRACO_TRES,
-  p, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar,
+  p, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
 } from '../lib/base.mjs';
 
 const DATAS = ['15', '22', '29'];
@@ -9,11 +9,11 @@ const DATAS = ['15', '22', '29'];
 const BASE = {
   email: '02 · Vamos conhecer as opções? (Ofertão RDR)',
   fonte: 'scripts/emails/02-vamos-conhecer-as-opcoes.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_HORARIO}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
   titulo: 'Vamos conhecer as opções?',
   assunto: 'Vamos conhecer as opções?',
   preheader: 'O Ofertão RDR acontece em 15, 22 e 29/10. Escolha uma data para conversar com um corretor.',
-  botao: { texto: 'Quero escolher um horário', link: '{{LINK_HORARIO}}', larguraVml: 340 },
+  botao: { texto: 'Quero escolher um horário', link: WHATSAPP, larguraVml: 340 },
   // datas cabem lado a lado no celular; só a caixa encolhe o respiro
   cssMobile: `
       .rdr-datas  { padding:22px 18px 24px 18px !important; }

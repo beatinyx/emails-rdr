@@ -3,7 +3,7 @@
 import {
   EMPREENDIMENTOS, OFERTAO, RDR, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
-  blocoBanner, blocoLegendas, blocoTraco, documento, gravar,
+  blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
 } from '../lib/base.mjs';
 
 const DATA = OFERTAO.data;
@@ -12,7 +12,7 @@ const LOCAL = OFERTAO.localAtendimento;
 const BASE = {
   email: '07 · Conheça o empreendimento (Ofertão RDR)',
   fonte: 'scripts/emails/07-conheca-o-empreendimento.mjs',
-  botao: { texto: 'Quero escolher um horário', link: '{{LINK_AGENDAMENTO}}', larguraVml: 340 },
+  botao: { texto: 'Quero escolher um horário', link: WHATSAPP, larguraVml: 340 },
   cssMobile: CSS_CAIXA_ENCONTRO,
 };
 
@@ -23,7 +23,7 @@ const versoes = Object.values(EMPREENDIMENTOS).map((e) => {
     rotulo: e.nome,
     html: documento({
       ...BASE,
-      variaveis: ['{{NOME}}', LOCAL, '{{LINK_AGENDAMENTO}}', '{{LINK_DESCADASTRO}}'],
+      variaveis: ['{{NOME}}', LOCAL, '{{LINK_DESCADASTRO}}'],
       titulo,
       assunto: titulo,
       preheader: `Em ${DATA}, conheça o ${e.nome} e converse com um corretor.`,
@@ -51,7 +51,7 @@ versoes.push({
   rotulo: 'Sem produto identificado',
   html: documento({
     ...BASE,
-    variaveis: ['{{NOME}}', '{{LINK_AGENDAMENTO}}', '{{LINK_DESCADASTRO}}'],
+    variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
     titulo: 'Qual opção você quer conhecer?',
     assunto: 'Qual opção você quer conhecer?',
     preheader: `Em ${DATA}, teremos atendimento para apresentar as opções da RDR.`,
