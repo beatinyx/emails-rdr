@@ -1,13 +1,13 @@
 // E-mail 01 "Veja as opções": 6 versões por empreendimento (com e sem novidade) + sem produto.
 import {
   EMPREENDIMENTOS, TRACO_TRES,
-  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
+  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const BASE = {
   email: '01 · Veja as opções',
   fonte: 'scripts/emails/01-veja-as-opcoes.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, DESCADASTRO],
   titulo: 'Veja as opções',
   assunto: 'Veja as opções',
   botao: { texto: 'Quero uma simulação', link: WHATSAPP },
@@ -31,6 +31,7 @@ for (const e of Object.values(EMPREENDIMENTOS)) {
       rotulo: `${e.nome} · ${comNovidade ? 'com novidade confirmada' : 'sem novidade (argumento)'}`,
       html: documento({
         ...BASE,
+        botao: { ...BASE.botao, link: e.whatsapp },
         preheader: comNovidade
           ? `Uma informação sobre o ${e.nome} para você.`
           : `Um ponto do ${e.nome} que vale conhecer.`,

@@ -8,7 +8,7 @@ import { join } from 'node:path';
 import {
   ROOT, EMPREENDIMENTOS, FONTE_TEXTO, IMG, OFERTAO, RDR,
   p, caixaApoio, caixaServico, blocoBanner, blocoTraco, documento, gravar,
-  CSS_CAIXA_EVENTO, CSS_COLUNAS, WHATSAPP,
+  CSS_CAIXA_EVENTO, CSS_COLUNAS, WHATSAPP, NOME,
 } from '../lib/base.mjs';
 
 const FONTE = 'scripts/emails/calendario-ofertao.mjs';
@@ -27,7 +27,7 @@ const DIAS = {
 // ---- Campos do planejamento ([Nome], [Link ...]) → merge tags ----
 const tag = (nome) => nome.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().replace(/\s+/g, '_');
 const TAGS = [
-  [/\[Nome\]/g, '{{NOME}}'],
+  [/\[Nome\]/g, NOME],
   [/\[Link de simulação do (.+?)\]/g, (_, n) => `{{LINK_SIMULACAO_${tag(n)}}}`],
   [/\[Link para conhecer o (.+?)\]/g, (_, n) => `{{LINK_${tag(n)}}}`],
   [/\[Link de agendamento do (.+?) no Ofertão\]/g, (_, n) => `{{LINK_AGENDAMENTO_${tag(n)}}}`],
@@ -118,8 +118,8 @@ const dataLonga = (iso) => `${DIA_SEMANA[new Date(`${iso}T12:00:00`).getDay()]},
 const codigo = (x, sufixo = '') =>
   `S${x.semana}_${x.nivel}_${x.chave === 'general' ? 'OFERTAO' : tag(x.produto)}_EMAIL_${x.data.slice(8)}${x.data.slice(5, 7)}${sufixo}`;
 
-// c: copy (ou a versão confirmada), x: o envio; versao: rótulo do cabeçalho.
-function montar({ x, c, versao, banner, corpo, cta, legais, cssMobile = CSS_CAIXA_EVENTO, sufixo = '', notas = [] }) {
+// c: copy (ou a versão confirmada), x: o envio, e: o empreendimento (sem ele, versão geral); versao: rótulo do cabeçalho.
+function montar({ x, c, e, versao, banner, corpo, cta, legais, cssMobile = CSS_CAIXA_EVENTO, sufixo = '', notas = [] }) {
   const titulo = t(c.headline);
   const html = documento({
     email: `Calendário do Ofertão · ${versao}`,
@@ -140,11 +140,11 @@ function montar({ x, c, versao, banner, corpo, cta, legais, cssMobile = CSS_CAIX
     banner,
     saudacao: t(c.body[0]),
     corpo,
-    botao: { texto: cta, link: WHATSAPP, larguraVml: larguraVml(cta) },
+    botao: { texto: cta, link: e ? e.whatsapp : WHATSAPP, larguraVml: larguraVml(cta) },
     legais,
     cssMobile,
   });
-  const vars = [...new Set(html.match(/\{\{[A-Z_]+\}\}/g))];
+  const vars = [...new Set(html.match(/\{\{[A-Z_]+\}\}|\*\|+[A-Z_]+\|+\*/g))];
   return html.replace('@@VARIAVEIS@@', vars.join(' · '));
 }
 
@@ -163,6 +163,7 @@ function emailSemana(x) {
     p(convite, c.eventBox ? ' margin-bottom:24px;' : ' margin-bottom:12px;') +
     (c.eventBox ? boxReserve(c.eventBox) : '');
   return montar({
+    e,
     x, c,
     versao: `Semana ${x.semana} · ${x.nivel} (${NIVEIS[x.nivel].nome}) · ${e.nome}`,
     banner: bannerFachada(e),
@@ -186,6 +187,7 @@ function emailEvento(x) {
     (c.products ? c.products.map(blocoProduto).join('') + '\n              ' + p(t(c.closing), ' margin:24px 0 24px 0;') : '') +
     boxServico(c.box);
   return montar({
+    e,
     x, c,
     versao: e
       ? `Semana 4 · ${x.nivel} (${NIVEIS[x.nivel].nome}) · ${e.nome} · ${x.dia}`
@@ -209,6 +211,7 @@ function emailConfirmado(x) {
   const dd = x.data.slice(8);
   const box = dd === '04' ? c.box : { ...c.box, text: c.box.text.replace('[Data agendada]', `${dd} de novembro`) };
   return montar({
+    e,
     x: { ...x, nivel: 'AGENDADOS' },
     c,
     versao: `Semana 4 · quem já agendou · ${e ? e.nome : 'versão geral'} · ${x.dia} (substitui o convite)`,

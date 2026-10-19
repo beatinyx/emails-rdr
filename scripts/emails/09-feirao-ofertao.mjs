@@ -2,7 +2,7 @@
 // Banner do Feirão (Ofertão + "Feirão de imóveis" + assinatura RDR); caixa Azul Profundo com o evento.
 import {
   EMPREENDIMENTOS, OFERTAO, BANNER_FEIRAO,
-  p, caixaEvento, CSS_CAIXA_EVENTO, documento, gravar, WHATSAPP,
+  p, caixaEvento, CSS_CAIXA_EVENTO, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 
@@ -11,7 +11,7 @@ const titulo = 'Venha encontrar uma opção para seus planos';
 const html = documento({
   email: '09 · Venha encontrar uma opção para seus planos (Ofertão RDR · Feirão de imóveis)',
   fonte: 'scripts/emails/09-feirao-ofertao.mjs',
-  variaveis: ['{{NOME}}', OFERTAO.local, OFERTAO.horarios, '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, OFERTAO.local, OFERTAO.horarios, DESCADASTRO],
   titulo,
   assunto: titulo,
   preheader: 'A RDR vai realizar o Ofertão, um feirão de ofertas para quem está buscando um imóvel.',
@@ -19,7 +19,7 @@ const html = documento({
        Assunto:     ${titulo}
        Específicas: ${OFERTAO.local} · ${OFERTAO.horarios}`,
   banner: BANNER_FEIRAO,
-  saudacao: 'Olá, {{NOME}}, tudo bem?',
+  saudacao: `Olá, ${NOME}, tudo bem?`,
   corpo:
     p('A RDR vai realizar o Ofertão, um feirão de ofertas para quem está buscando um imóvel.') +
     p('Você poderá conhecer melhor nossos empreendimentos, comparar as opções e conversar com a equipe sobre valores, entrada e possibilidades de financiamento.') +

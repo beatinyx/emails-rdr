@@ -2,7 +2,7 @@
 // Banner "É AMANHÃ!" + Ofertão (com a assinatura RDR); caixa do evento com a data de amanhã.
 import {
   EMPREENDIMENTOS, IMG, OFERTAO,
-  p, caixaEvento, CSS_CAIXA_EVENTO, documento, gravar, WHATSAPP,
+  p, caixaEvento, CSS_CAIXA_EVENTO, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const banner = `
@@ -18,7 +18,7 @@ const titulo = 'Amanhã é dia de Ofertão RDR';
 const html = documento({
   email: '11 · Amanhã é dia de Ofertão RDR',
   fonte: 'scripts/emails/11-amanha-ofertao.mjs',
-  variaveis: ['{{NOME}}', OFERTAO.local, OFERTAO.horarios, '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, OFERTAO.local, OFERTAO.horarios, DESCADASTRO],
   titulo,
   assunto: titulo,
   preheader: 'É amanhã! Venha ao Ofertão RDR conhecer o Soul Fonseca, o Sun In e o Novo Enredo.',
@@ -26,7 +26,7 @@ const html = documento({
        Assunto:     ${titulo}
        Específicas: ${OFERTAO.local} · ${OFERTAO.horarios}`,
   banner,
-  saudacao: 'Olá, {{NOME}}, tudo bem?',
+  saudacao: `Olá, ${NOME}, tudo bem?`,
   corpo:
     p('É amanhã! Gostaríamos de te receber no Ofertão RDR, nosso feirão presencial de imóveis.') +
     p('Venha conhecer melhor o Soul Fonseca, o Sun In e o Novo Enredo, tirar suas dúvidas e conferir os valores e as condições de compra com nossa equipe.') +

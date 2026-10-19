@@ -3,15 +3,15 @@
 // de apoio do KV), lado a lado no desktop e empilhado no celular; um botão por produto.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, IMG, RDR,
-  p, CSS_COLUNAS, documento, gravar, WHATSAPP,
+  p, CSS_COLUNAS, documento, gravar, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const { soul, sunin, enredo } = EMPREENDIMENTOS;
 
 const PRODUTOS = [
-  { e: soul, texto: '2 quartos no Fonseca, em Niterói, com lazer no condomínio.', link: WHATSAPP },
-  { e: sunin, texto: 'studios no Ingá, em Niterói, com lazer no rooftop.', link: WHATSAPP },
-  { e: enredo, texto: '2 quartos na Vila Isabel, no Rio, com lazer no condomínio.', link: WHATSAPP },
+  { e: soul, texto: '2 quartos no Fonseca, em Niterói, com lazer no condomínio.', link: soul.whatsapp },
+  { e: sunin, texto: 'studios no Ingá, em Niterói, com lazer no rooftop.', link: sunin.whatsapp },
+  { e: enredo, texto: '2 quartos na Vila Isabel, no Rio, com lazer no condomínio.', link: enredo.whatsapp },
 ];
 
 const abertura = `
@@ -66,7 +66,7 @@ function botoes() {
 const html = documento({
   email: '05 · Conheça os empreendimentos da RDR',
   fonte: 'scripts/emails/05-conheca-os-empreendimentos.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, DESCADASTRO],
   titulo: 'Conheça os empreendimentos da RDR',
   assunto: 'Conheça os empreendimentos da RDR',
   preheader: 'Soul Fonseca, Sun In e Novo Enredo: três opções para seus próximos planos.',

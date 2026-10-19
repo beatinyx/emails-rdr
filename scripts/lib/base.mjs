@@ -21,11 +21,20 @@ export const RDR = {
 export const FONTE_TEXTO = "'Merta Sans', Arial, Helvetica, sans-serif";
 export const FONTE_DISPLAY = "'Srotone', 'Merta Sans', Arial, Helvetica, sans-serif";
 
+// ---- Contato: os botões levam ao WhatsApp da RDR (0800 000 5667) ----
+// Versão de um empreendimento: mensagem pronta citando o produto; versão geral: só o número.
+export const WHATSAPP = 'https://wa.me/558000005667';
+const whatsapp = (nome) => {
+  const texto = `Olá! Já conversei com a RDR sobre o ${nome} e tenho interesse novamente. Quero retomar minha negociação e fazer uma nova simulação.`;
+  return `${WHATSAPP}?text=${encodeURIComponent(texto).replace(/!/g, '%21')}`;
+};
+
 // ---- Empreendimentos: cor de apoio do KV para a caixa + texto legal ----
 export const EMPREENDIMENTOS = {
   soul: {
     slug: 'soul-fonseca',
     nome: 'Soul Fonseca',
+    whatsapp: whatsapp('Soul Fonseca'),
     local: 'Fonseca · Niterói',
     acento: '#4CC1F0', // traço abaixo do banner (antes ficava sobre o logo)
     banner: 'banner-soul-fonseca.jpg',
@@ -42,6 +51,7 @@ export const EMPREENDIMENTOS = {
   sunin: {
     slug: 'sun-in',
     nome: 'Sun In',
+    whatsapp: whatsapp('Sun In'),
     local: 'Ingá · Niterói',
     acento: '#E3792A',
     banner: 'banner-sun-in.jpg',
@@ -57,6 +67,7 @@ export const EMPREENDIMENTOS = {
   enredo: {
     slug: 'novo-enredo',
     nome: 'Novo Enredo',
+    whatsapp: whatsapp('Novo Enredo'),
     local: 'Vila Isabel',
     acento: '#F3C055',
     banner: 'banner-novo-enredo.jpg',
@@ -114,8 +125,9 @@ export function caixaApoio(c, html, { comentario = '', margem = '4px 0 28px 0' }
               </table>`;
 }
 
-// ---- Contato: todos os botões levam ao WhatsApp da RDR (0800 000 5667) ----
-export const WHATSAPP = 'https://wa.me/5508000005667';
+// ---- Variáveis do RD Station Marketing (preenchidas no disparo) ----
+export const NOME = '*|PRIMEIRO_NOME|*';
+export const DESCADASTRO = '*||UNSUBSCRIBE_LINK||*';
 
 // ---- Ofertão RDR: dados do evento (uma fonte só para todos os e-mails) ----
 export const OFERTAO = {
@@ -294,7 +306,7 @@ export function blocoRodape(legais) {
               <div style="height:24px; line-height:24px; font-size:0;">&nbsp;</div>
               ${linhas}
               <p style="margin:0 0 10px 0; font-family:${FONTE_TEXTO}; font-size:11px; line-height:17px; color:#A9B6CB;">${LEGAL_COMUM}</p>
-              <p style="margin:18px 0 0 0; font-family:${FONTE_TEXTO}; font-size:12px; line-height:18px; color:#C9D3E2;">Você recebeu este e-mail porque demonstrou interesse nos empreendimentos da RDR Engenharia. Se não quiser mais receber nossas mensagens, <a href="{{LINK_DESCADASTRO}}" target="_blank" style="color:#FFFFFF; text-decoration:underline;">descadastre-se aqui</a>.</p>
+              <p style="margin:18px 0 0 0; font-family:${FONTE_TEXTO}; font-size:12px; line-height:18px; color:#C9D3E2;">Você recebeu este e-mail porque demonstrou interesse nos empreendimentos da RDR Engenharia. Se não quiser mais receber nossas mensagens, <a href="${DESCADASTRO}" target="_blank" style="color:#FFFFFF; text-decoration:underline;">descadastre-se aqui</a>.</p>
               <p style="margin:14px 0 0 0; font-family:${FONTE_TEXTO}; font-size:12px; line-height:18px; color:#C9D3E2;">RDR Engenharia · Avenida Álvares Cabral, 1777, sala 509, Santo Agostinho · Belo Horizonte - MG, Brasil</p>
             </td>
           </tr>`;
@@ -307,11 +319,11 @@ export function blocoRodape(legais) {
 // variaveis: merge tags usadas nesta peça
 // botao:     { texto, link } — sempre logo depois do corpo
 // acoes:     HTML pronto no lugar do botão único (vários botões)
-// saudacao:  primeira linha do corpo (padrão "Olá, {{NOME}}.")
+// saudacao:  primeira linha do corpo (padrão "Olá, primeiro nome.")
 // cssMobile: regras extras dentro da media query de celular
 // apoio:     linha curta abaixo do título (tipologia, bairro)
 // compacto:  título menor, para chamadas longas
-export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = 'Olá, {{NOME}}.', apoio = '', compacto = false }) {
+export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = `Olá, ${NOME}.`, apoio = '', compacto = false }) {
   const [tam, alt] = compacto ? [32, 37] : [40, 44];
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="pt-BR">

@@ -3,7 +3,7 @@
 import {
   EMPREENDIMENTOS, OFERTAO, RDR, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
-  blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
+  blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const DATA = OFERTAO.data;
@@ -23,7 +23,8 @@ const versoes = Object.values(EMPREENDIMENTOS).map((e) => {
     rotulo: e.nome,
     html: documento({
       ...BASE,
-      variaveis: ['{{NOME}}', LOCAL, '{{LINK_DESCADASTRO}}'],
+      botao: { ...BASE.botao, link: e.whatsapp },
+      variaveis: [NOME, LOCAL, DESCADASTRO],
       titulo,
       assunto: titulo,
       preheader: `Em ${DATA}, conheça o ${e.nome} e converse com um corretor.`,
@@ -51,7 +52,7 @@ versoes.push({
   rotulo: 'Sem produto identificado',
   html: documento({
     ...BASE,
-    variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+    variaveis: [NOME, DESCADASTRO],
     titulo: 'Qual opção você quer conhecer?',
     assunto: 'Qual opção você quer conhecer?',
     preheader: `Em ${DATA}, teremos atendimento para apresentar as opções da RDR.`,

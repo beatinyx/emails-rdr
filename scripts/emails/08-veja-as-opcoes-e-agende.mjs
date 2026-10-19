@@ -3,7 +3,7 @@
 import {
   EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
-  blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
+  blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const DATA = OFERTAO.data;
@@ -11,7 +11,7 @@ const DATA = OFERTAO.data;
 const html = documento({
   email: '08 · Veja as opções e agende sua visita (Ofertão RDR)',
   fonte: 'scripts/emails/08-veja-as-opcoes-e-agende.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, DESCADASTRO],
   titulo: 'Veja as opções e agende sua visita',
   assunto: 'Veja as opções e agende sua visita',
   preheader: `O próximo encontro da RDR será em ${DATA}. Escolha o empreendimento e combine um horário.`,

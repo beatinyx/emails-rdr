@@ -2,13 +2,13 @@
 // Reaproveita os banners, o traço e as caixas de apoio do e-mail 01.
 import {
   EMPREENDIMENTOS, RDR, TRACO_TRES,
-  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
+  p, caixaApoio, blocoBanner, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const BASE = {
   email: '03 · Comece pelas suas dúvidas',
   fonte: 'scripts/emails/03-comece-pelas-suas-duvidas.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, DESCADASTRO],
   titulo: 'Comece pelas suas dúvidas',
   assunto: 'Comece pelas suas dúvidas',
   botao: { texto: 'Quero uma simulação', link: WHATSAPP },
@@ -21,6 +21,7 @@ const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
   rotulo: e.nome,
   html: documento({
     ...BASE,
+    botao: { ...BASE.botao, link: e.whatsapp },
     preheader: `Antes de visitar o ${e.nome}, peça uma simulação e tire suas dúvidas com um corretor.`,
     cabecalho: `       Versão:      ${e.nome}
        Assunto:     ${BASE.assunto}

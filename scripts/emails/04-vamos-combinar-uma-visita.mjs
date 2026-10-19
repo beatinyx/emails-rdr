@@ -2,7 +2,7 @@
 // Reaproveita o banner do Ofertão e a caixa Azul Profundo do convite (e-mail 02).
 import {
   EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
-  p, destaque, linhaIcone as linha, caixaEncontro, CSS_CAIXA_ENCONTRO, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
+  p, destaque, linhaIcone as linha, caixaEncontro, CSS_CAIXA_ENCONTRO, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const DATA = OFERTAO.data;
@@ -22,7 +22,8 @@ const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
   rotulo: e.nome,
   html: documento({
     ...BASE,
-    variaveis: ['{{NOME}}', LOCAL, '{{LINK_DESCADASTRO}}'],
+    botao: { ...BASE.botao, link: e.whatsapp },
+    variaveis: [NOME, LOCAL, DESCADASTRO],
     preheader: `Conheça o ${e.nome} no próximo encontro da RDR e tire suas dúvidas com um corretor.`,
     cabecalho: `       Versão:      ${e.nome}
        Assunto:     ${BASE.assunto}
@@ -44,7 +45,7 @@ versoes.push({
   rotulo: 'Sem produto identificado',
   html: documento({
     ...BASE,
-    variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+    variaveis: [NOME, DESCADASTRO],
     preheader: 'Conheça as opções da RDR no próximo encontro e tire suas dúvidas com um corretor.',
     cabecalho: `       Versão:      sem produto identificado (Soul Fonseca, Sun In e Novo Enredo)
        Assunto:     ${BASE.assunto}

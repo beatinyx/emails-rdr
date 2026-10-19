@@ -1,7 +1,7 @@
 // E-mail 02 "Vamos conhecer as opções?" (Ofertão RDR): 3 versões por empreendimento + sem produto.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, FONTE_DISPLAY, IMG, RDR, TRACO_TRES,
-  p, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
+  p, blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const DATAS = ['15', '22', '29'];
@@ -9,7 +9,7 @@ const DATAS = ['15', '22', '29'];
 const BASE = {
   email: '02 · Vamos conhecer as opções? (Ofertão RDR)',
   fonte: 'scripts/emails/02-vamos-conhecer-as-opcoes.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, DESCADASTRO],
   titulo: 'Vamos conhecer as opções?',
   assunto: 'Vamos conhecer as opções?',
   preheader: 'O Ofertão RDR acontece em 15, 22 e 29/10. Escolha uma data para conversar com um corretor.',
@@ -56,6 +56,7 @@ const versoes = Object.values(EMPREENDIMENTOS).map((e) => ({
   rotulo: e.nome,
   html: documento({
     ...BASE,
+    botao: { ...BASE.botao, link: e.whatsapp },
     cabecalho: `       Versão:      ${e.nome}
        Assunto:     ${BASE.assunto}
        Específicas: nenhuma`,

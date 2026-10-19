@@ -3,15 +3,15 @@
 // dentro do box); caixa do evento como lembrete no fim.
 import {
   EMPREENDIMENTOS, FONTE_TEXTO, IMG, OFERTAO, RDR, BANNER_FEIRAO,
-  p, caixaEvento, CSS_CAIXA_EVENTO, CSS_COLUNAS, documento, gravar, WHATSAPP,
+  p, caixaEvento, CSS_CAIXA_EVENTO, CSS_COLUNAS, documento, gravar, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const { soul, sunin, enredo } = EMPREENDIMENTOS;
 
 const PRODUTOS = [
-  { e: soul, linhas: ['2 quartos no Fonseca, em Niterói.', 'Lazer completo e exclusivo.'], link: WHATSAPP },
-  { e: sunin, linhas: ['Studios para morar e investir no Ingá, em Niterói.', 'Lazer no rooftop.'], link: WHATSAPP },
-  { e: enredo, linhas: ['2 quartos na Vila Isabel, no Rio de Janeiro.', 'Áreas de lazer mobiliadas.'], link: WHATSAPP },
+  { e: soul, linhas: ['2 quartos no Fonseca, em Niterói.', 'Lazer completo e exclusivo.'], link: soul.whatsapp },
+  { e: sunin, linhas: ['Studios para morar e investir no Ingá, em Niterói.', 'Lazer no rooftop.'], link: sunin.whatsapp },
+  { e: enredo, linhas: ['2 quartos na Vila Isabel, no Rio de Janeiro.', 'Áreas de lazer mobiliadas.'], link: enredo.whatsapp },
 ];
 
 // Botão do produto: Azul RDR na largura do box, traço do produto à esquerda.
@@ -62,7 +62,7 @@ const titulo = 'Qual dessas opções combina com seus planos?';
 const html = documento({
   email: '10 · Qual dessas opções combina com seus planos? (Ofertão RDR · Feirão de imóveis)',
   fonte: 'scripts/emails/10-qual-opcao-combina.mjs',
-  variaveis: ['{{NOME}}', OFERTAO.local, OFERTAO.horarios, '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, OFERTAO.local, OFERTAO.horarios, DESCADASTRO],
   titulo,
   assunto: titulo,
   preheader: 'No Ofertão RDR, conheça três empreendimentos e converse com nossa equipe sobre as possibilidades de compra.',
@@ -70,7 +70,7 @@ const html = documento({
        Assunto:     ${titulo}
        Específicas: ${OFERTAO.local} · ${OFERTAO.horarios}`,
   banner: BANNER_FEIRAO,
-  saudacao: 'Olá, {{NOME}}, tudo bem?',
+  saudacao: `Olá, ${NOME}, tudo bem?`,
   corpo:
     p('No Ofertão RDR, você poderá conhecer melhor três empreendimentos e conversar com nossa equipe sobre as possibilidades de compra.') +
     p('Confira as opções e escolha qual gostaria de conhecer:', ' margin-bottom:24px;') +

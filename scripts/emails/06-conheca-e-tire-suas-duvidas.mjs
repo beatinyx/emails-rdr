@@ -3,7 +3,7 @@
 import {
   EMPREENDIMENTOS, OFERTAO, TRACO_TRES,
   p, destaque, linhaIcone, caixaEncontro, CSS_CAIXA_ENCONTRO,
-  blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP,
+  blocoBannerOfertao, blocoLegendas, blocoTraco, documento, gravar, WHATSAPP, NOME, DESCADASTRO,
 } from '../lib/base.mjs';
 
 const DATAS = OFERTAO.periodo;
@@ -11,7 +11,7 @@ const DATAS = OFERTAO.periodo;
 const html = documento({
   email: '06 · Conheça e tire suas dúvidas (Ofertão RDR)',
   fonte: 'scripts/emails/06-conheca-e-tire-suas-duvidas.mjs',
-  variaveis: ['{{NOME}}', '{{LINK_DESCADASTRO}}'],
+  variaveis: [NOME, DESCADASTRO],
   titulo: 'Conheça e tire suas dúvidas',
   assunto: 'Conheça e tire suas dúvidas',
   preheader: 'O Ofertão RDR reúne atendimento para apresentar os empreendimentos e esclarecer suas dúvidas.',
