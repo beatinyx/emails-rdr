@@ -267,12 +267,12 @@ export function blocoLegendas() {
           </tr>`;
 }
 
-export function blocoBotao({ texto, link, larguraVml = 300 }) {
+export function blocoBotao({ texto, link, larguraVml = 300, padding = '8px 48px 56px 48px' }) {
   // Botão à prova de Outlook (VML) com o Azul RDR; ocupa a largura toda no celular.
   return `
           <!-- ============ BOTÃO ============ -->
           <tr>
-            <td class="rdr-gutter" align="left" style="padding:8px 48px 56px 48px;">
+            <td class="rdr-gutter" align="left" style="padding:${padding};">
               <!--[if mso]>
               <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${link}" style="height:60px; v-text-anchor:middle; width:${larguraVml}px;" stroke="f" fillcolor="${RDR.azul}">
                 <w:anchorlock/>
@@ -323,7 +323,8 @@ export function blocoRodape(legais) {
 // cssMobile: regras extras dentro da media query de celular
 // apoio:     linha curta abaixo do título (tipologia, bairro)
 // compacto:  título menor, para chamadas longas
-export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = `Olá, ${NOME}.`, apoio = '', compacto = false }) {
+// topo:      oferta logo abaixo do título; o botão vem em seguida e a saudação + corpo depois dele
+export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = `Olá, ${NOME}.`, apoio = '', compacto = false, topo = '' }) {
   const [tam, alt] = compacto ? [32, 37] : [40, 44];
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="pt-BR">
@@ -398,11 +399,21 @@ ${banner}
             <td class="rdr-gutter" align="left" style="padding:48px 48px 8px 48px;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td width="40" height="4" style="width:40px; height:4px; background-color:${RDR.ceu}; font-size:0; line-height:0;">&nbsp;</td></tr></table>
               <h1 class="rdr-titulo" style="margin:20px 0 ${apoio ? 12 : 28}px 0; font-family:${FONTE_DISPLAY}; font-size:${tam}px; line-height:${alt}px; font-weight:300; letter-spacing:-0.4px; text-transform:uppercase; color:${RDR.azul};">${titulo}</h1>${apoio ? `
-              <p style="margin:0 0 28px 0; font-family:${FONTE_TEXTO}; font-size:15px; line-height:22px; font-weight:bold; letter-spacing:0.3px; color:${RDR.muted};">${apoio}</p>` : ''}
+              <p style="margin:0 0 28px 0; font-family:${FONTE_TEXTO}; font-size:15px; line-height:22px; font-weight:bold; letter-spacing:0.3px; color:${RDR.muted};">${apoio}</p>` : ''}${topo ? `${topo}
+            </td>
+          </tr>
+${blocoBotao({ ...botao, padding: '8px 48px 8px 48px' })}
+
+          <!-- ============ SAUDAÇÃO + CORPO ============ -->
+          <tr>
+            <td class="rdr-gutter" align="left" style="padding:36px 48px 36px 48px;">
+              ${p(saudacao)}${corpo}
+            </td>
+          </tr>` : `
               ${p(saudacao)}${corpo}
             </td>
           </tr>
-${acoes ?? blocoBotao(botao)}
+${acoes ?? blocoBotao(botao)}`}
 ${blocoRodape(legais)}
 
         </table>
