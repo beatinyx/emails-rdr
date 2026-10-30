@@ -53,16 +53,16 @@ const scrim = (rgb, w, h) => Buffer.from(`
 const JPG = { quality: 78, mozjpeg: true, progressive: true };
 
 // Fachada do produto com o véu e a marca do KV (sem gravar).
-async function fachada(p) {
-  const logo = await logoPng(p.logo, p.logoW);
+// w/h/logoW/pad: recorte menor para a moldura do KV Blue Friday.
+async function fachada(p, { w = W, h = H, logoW = p.logoW, pad = 64 } = {}) {
+  const logo = await logoPng(p.logo, logoW);
   const lm = await sharp(logo).metadata();
-  const pad = 64;
   // o traço de acento do KV fica no HTML, abaixo do banner (scripts/lib/base.mjs)
   return sharp(p.foto)
-    .resize(W, H, { fit: 'cover', position: p.pos })
+    .resize(w, h, { fit: 'cover', position: p.pos })
     .composite([
-      { input: scrim(p.scrim, W, H), top: 0, left: 0 },
-      { input: logo, top: H - pad - lm.height, left: pad },
+      { input: scrim(p.scrim, w, h), top: 0, left: 0 },
+      { input: logo, top: h - pad - lm.height, left: pad },
     ])
     .png() // intermediário sem perda: o JPEG só é gerado uma vez, na saída
     .toBuffer();
@@ -338,6 +338,60 @@ async function ofertaoChamada(base, saida, texto) {
   console.log('ok', saida, `${W}x${HT}`);
 }
 
+// ---- Blue Friday (semanas 4 e 5): KV com fundo de linhas e logo "Blue Friday · 30 dias de vantagens" ----
+// blue-friday-logo.png: logo com o selo e a assinatura RDR, fundo transparente (KV oficial).
+// blue-friday-fundo.jpg: fundo do FUNDO.psd do KV, só as camadas de fundo (sem o mockup da peça).
+const BF_LOGO = join(ROOT, 'img', 'blue-friday-logo.png');
+const BF_FUNDO = join(ROOT, 'img', 'blue-friday-fundo.jpg');
+const fundoBf = (w, h) => sharp(BF_FUNDO).resize(w, h, { fit: 'cover', position: 'centre' }).png().toBuffer();
+const logoBf = (w) => sharp(BF_LOGO).resize({ width: w }).png().toBuffer();
+
+// Versão geral: só o logo sobre o fundo (1200 × 640 → 600 × 320).
+async function bannerBfGeral() {
+  const FW = 1200, FH = 640;
+  const logo = await logoBf(940);
+  const lm = await sharp(logo).metadata();
+  await sharp(await fundoBf(FW, FH))
+    .composite([{ input: logo, top: Math.round((FH - lm.height) / 2), left: Math.round((FW - lm.width) / 2) }])
+    .jpeg(JPG)
+    .toFile(OUT('banner-bf-geral.jpg'));
+  console.log('ok banner-bf-geral.jpg', `${FW}x${FH}`);
+}
+
+// Por empreendimento: logo no topo e a fachada numa moldura neon com os cantos cortados,
+// como os quadros de produto do KV (1200 × 1060 → 600 × 530).
+async function bannerBfProduto(p) {
+  const FW = 1200, FH = 1060;
+  const QW = 1040, QH = 560, QX = 80, QY = 452, CUT = 64;
+  const logo = await logoBf(660);
+  const lm = await sharp(logo).metadata();
+  // quadro: canto superior direito e inferior esquerdo cortados
+  const pontos = (x, y) => [[x, y], [x + QW - CUT, y], [x + QW, y + CUT], [x + QW, y + QH], [x + CUT, y + QH], [x, y + QH - CUT]]
+    .map((pt) => pt.join(',')).join(' ');
+  const mascara = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${QW}" height="${QH}"><polygon points="${pontos(0, 0)}" fill="#fff"/></svg>`);
+  const foto = await sharp(await fachada(p, { w: QW, h: QH, logoW: Math.round(p.logoW * 0.78), pad: 44 }))
+    .composite([{ input: mascara, blend: 'dest-in' }])
+    .png()
+    .toBuffer();
+  // neon: halo desfocado + traço claro + filete branco
+  const moldura = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${FW}" height="${FH}">
+    <defs><filter id="g" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="14"/></filter></defs>
+    <polygon points="${pontos(QX, QY)}" fill="none" stroke="#1E7BFF" stroke-width="22" filter="url(#g)"/>
+    <polygon points="${pontos(QX, QY)}" fill="none" stroke="#3FB4FF" stroke-width="7"/>
+    <polygon points="${pontos(QX, QY)}" fill="none" stroke="#E6F7FF" stroke-width="2"/>
+  </svg>`);
+  const saida = `banner-bf-${p.saida.replace(/^banner-|\.jpg$/g, '')}.jpg`;
+  await sharp(await fundoBf(FW, FH))
+    .composite([
+      { input: moldura, top: 0, left: 0 },
+      { input: foto, top: QY, left: QX },
+      { input: logo, top: 22, left: Math.round((FW - lm.width) / 2) },
+    ])
+    .jpeg(JPG)
+    .toFile(OUT(saida));
+  console.log('ok', saida, `${FW}x${FH}`, `logo ${lm.width}x${lm.height}`);
+}
+
 async function logosRdr() {
   const DS = `${C}/design-system-rdr/public/assets/logo`;
   for (const [src, out] of [['rdr-logo-branco.svg', 'rdr-logo-branco.png'], ['rdr-logo-profundo.svg', 'rdr-logo-profundo.png']]) {
@@ -364,3 +418,5 @@ for (const [dia, texto] of Object.entries(CHAMADAS)) {
     await ofertaoChamada(await fachada(p), p.saida.replace('banner-', 'banner-ofertao-').replace('.jpg', `-${dia}.jpg`), texto);
   }
 }
+await bannerBfGeral();
+for (const p of Object.values(PRODUTOS)) await bannerBfProduto(p);
