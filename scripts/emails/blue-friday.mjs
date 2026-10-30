@@ -31,16 +31,17 @@ const porNome = (nome) => Object.values(EMPREENDIMENTOS).find((e) => e.nome === 
 // Azul do neon do KV (moldura e fundo de linhas), para os boxes da campanha.
 const BF = { fundo: '#04153D', neon: '#3FB4FF' };
 
-// ---- Campos do planejamento ([Nome], [ MARCAÇÃO — ...], [Inserir ...]) → merge tags ----
+// ---- Campos do planejamento ([Nome], [ MARCAÇÃO — ...]) → merge tags ----
 const TAGS = [
   [/\[Nome\]/g, NOME],
   [/\[ MARCAÇÃO — DATA APROVADA\]/g, '{{DATA_OFERTAO}}'],
   [/\[ MARCAÇÃO — ESTANDE \/ ENDEREÇO\]/g, OFERTAO.local],
   [/\[ MARCAÇÃO — HORÁRIO\]/g, OFERTAO.horarios],
-  [/\[Inserir [^\]]*\]/g, '{{CONDICOES_COMERCIAIS}}'],
+  // "[Inserir condições ... validadas pela RDR.]" no legal da ponte: sai do texto
+  [/\s*\[Inserir [^\]]*\]/g, ''],
 ];
 function t(txt) {
-  const out = TAGS.reduce((s, [re, sub]) => s.replace(re, sub), txt);
+  const out = TAGS.reduce((s, [re, sub]) => s.replace(re, sub), txt).trim();
   if (/\[[^\]]*\]/.test(out)) throw new Error(`Campo sem merge tag: ${out}`);
   return out;
 }
