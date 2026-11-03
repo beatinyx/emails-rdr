@@ -177,6 +177,7 @@ function email(x) {
     botao: { texto: x.botao, link: linkWhatsapp(x.whatsapp), larguraVml: 240 },
     legais: [`${asterisco ? '* ' : ''}${t(x.legal)}`, ...(e ? [e.legal] : x.ofertas.map((o) => porNome(o.empreendimento).legal))],
     cssMobile: CSS,
+    respiro: false,
   });
   const vars = [...new Set(html.match(/\{\{[A-Z_]+\}\}|\*\|+[A-Z_]+\|+\*/g))];
   return html.replace('@@VARIAVEIS@@', vars.join(' · '));

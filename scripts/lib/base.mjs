@@ -324,7 +324,8 @@ export function blocoRodape(legais) {
 // apoio:     linha curta abaixo do título (tipologia, bairro)
 // compacto:  título menor, para chamadas longas
 // topo:      oferta logo abaixo do título; o botão vem em seguida e a saudação + corpo depois dele
-export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = `Olá, ${NOME}.`, apoio = '', compacto = false, topo = '' }) {
+// respiro:   faixa cinza acima e abaixo do e-mail (false: o e-mail encosta nas bordas, como no RD)
+export function documento({ email, fonte, variaveis, titulo, assunto, preheader, cabecalho, banner, corpo, botao, acoes, legais, cssMobile = '', saudacao = `Olá, ${NOME}.`, apoio = '', compacto = false, topo = '', respiro = true }) {
   const [tam, alt] = compacto ? [32, 37] : [40, 44];
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="pt-BR">
@@ -388,7 +389,7 @@ ${cabecalho}
   <!-- Canvas -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${RDR.nevoa};">
     <tr>
-      <td align="center" style="padding:24px 0;">
+      <td align="center" style="padding:${respiro ? '24px 0' : '0'};">
 
         <!-- Shell 600px -->
         <table role="presentation" class="rdr-wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:${RDR.offWhite};">
