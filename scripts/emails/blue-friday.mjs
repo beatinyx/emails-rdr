@@ -64,8 +64,8 @@ function blocoOferta({ empreendimento, destaque, apoio }, { maior = false, marge
                   <td width="6" style="width:6px; background-color:${c.barra}; font-size:0; line-height:0;">&nbsp;</td>
                   <td class="rdr-caixa" style="padding:20px 28px 22px 24px; background-color:${c.fundo};">
                     <p style="margin:0 0 6px 0; font-family:${FONTE_TEXTO}; font-size:14px; line-height:20px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; color:${c.texto};">${empreendimento}</p>
-                    <p class="rdr-oferta" style="margin:0 0 6px 0; font-family:${FONTE_DISPLAY}; font-size:${tam}px; line-height:${alt}px; font-weight:bold; color:${c.barra};">${destaque}</p>
-                    <p style="margin:0; font-family:${FONTE_TEXTO}; font-size:15px; line-height:22px; color:${c.texto};">${apoio}</p>
+                    <p class="rdr-oferta" style="margin:${apoio ? '0 0 6px 0' : '0'}; font-family:${FONTE_DISPLAY}; font-size:${tam}px; line-height:${alt}px; font-weight:bold; color:${c.barra};">${destaque}</p>${apoio ? `
+                    <p style="margin:0; font-family:${FONTE_TEXTO}; font-size:15px; line-height:22px; color:${c.texto};">${apoio}</p>` : ''}
                   </td>
                 </tr>
               </table>`;
