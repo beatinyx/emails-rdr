@@ -1258,7 +1258,7 @@
     {
      "empreendimento": "Soul Fonseca",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1305,7 +1305,7 @@
     {
      "empreendimento": "Soul Fonseca",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1352,7 +1352,7 @@
     {
      "empreendimento": "Soul Fonseca",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1399,7 +1399,7 @@
     {
      "empreendimento": "Soul Fonseca",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1466,7 +1466,7 @@
     {
      "empreendimento": "Soul Fonseca",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1513,7 +1513,7 @@
     {
      "empreendimento": "Soul Fonseca",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1560,7 +1560,7 @@
     {
      "empreendimento": "Sun In",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1607,7 +1607,7 @@
     {
      "empreendimento": "Sun In",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1654,7 +1654,7 @@
     {
      "empreendimento": "Sun In",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1701,7 +1701,7 @@
     {
      "empreendimento": "Sun In",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1768,7 +1768,7 @@
     {
      "empreendimento": "Sun In",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1815,7 +1815,7 @@
     {
      "empreendimento": "Sun In",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1848,6 +1848,7 @@
    "tipo": "abertura",
    "semana": 5,
    "id": "black-geral-N0",
+   "textoAntes": true,
    "data": "2026-11-03",
    "nivel": "N0",
    "produto": null,
@@ -1861,18 +1862,18 @@
    "ofertas": [
     {
      "empreendimento": "Novo Enredo",
-     "destaque": "R$ 15 mil de desconto",
+     "destaque": "R$ 15.000,00 de desconto",
      "apoio": "Sem limite de unidades participantes."
     },
     {
      "empreendimento": "Soul Fonseca",
-     "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "destaque": "R$ 10.000,00 de desconto",
+     "apoio": ""
     },
     {
      "empreendimento": "Sun In",
-     "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "destaque": "R$ 10.000,00 de desconto",
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -1889,8 +1890,8 @@
      "texto": "Converse com a equipe RDR para avaliar as opções e definir seu próximo passo: visita, simulação ou retomada da negociação."
     }
    ],
-   "cta": "Quero conversar sobre minha compra",
-   "botao": "WHATSAPP",
+   "cta": "Quero conhecer as condições da Blue Friday",
+   "botao": "Falar no WhatsApp",
    "whatsapp": "Olá! Vi as ofertas da RDR e quero conversar sobre a compra do meu imóvel durante a Blue Friday.",
    "legal": "Campanha válida de 01 a 30/11/2026. Novo Enredo: R$ 15 mil de desconto, sem limite de unidades participantes. Soul Fonseca: R$ 10 mil de desconto, limitado a 5 unidades participantes. Sun In: R$ 10 mil de desconto, limitado a 5 unidades participantes. Consulte disponibilidade e condições com a equipe comercial RDR.",
    "arte": [
@@ -1924,12 +1925,12 @@
     {
      "empreendimento": "Soul Fonseca",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     },
     {
      "empreendimento": "Sun In",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -2023,7 +2024,7 @@
     {
      "empreendimento": "Soul Fonseca",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
@@ -2070,7 +2071,7 @@
     {
      "empreendimento": "Sun In",
      "destaque": "R$ 10 mil de desconto",
-     "apoio": "Campanha limitada a 5 unidades participantes."
+     "apoio": ""
     }
    ],
    "corpo": [
