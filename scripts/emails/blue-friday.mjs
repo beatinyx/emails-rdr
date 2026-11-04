@@ -143,10 +143,12 @@ function email(x) {
   const e = PRODUTO[x.chave];
   const [saudacao, ...resto] = x.corpo;
   const corpo = resto.map((b, i) => blocoCorpo(b, e, resto[i + 1])).join('');
-  // abertura e modelos: oferta + chamada + botão antes da saudação; ponte: chamada depois do texto
-  const topo = x.ofertas.length
+  // abertura e modelos: oferta + chamada + botão antes da saudação; ponte: chamada depois do texto;
+  // textoAntes: saudação + texto primeiro, depois oferta + chamada + botão
+  const ofertas = x.ofertas.length
     ? x.ofertas.map((o, i) => blocoOferta(o, { maior: !e && i === 0, margem: i ? '12px 0 0 0' : '4px 0 0 0' })).join('') + chamada(t(x.cta))
     : '';
+  const topo = x.textoAntes ? '' : ofertas;
   const titulo = t(x.titulo);
   const versao =
     `Semana ${x.semana} · ${TIPOS[x.tipo]} · ${x.nivel} (${NIVEIS[x.nivel]}) · ${e ? e.nome : 'versão geral'}` +
@@ -173,8 +175,8 @@ function email(x) {
     banner: banner(e),
     topo,
     saudacao: t(saudacao.texto),
-    corpo: corpo + (topo ? '' : chamada(t(x.cta), '8px 0 4px 0')),
-    botao: { texto: x.botao, link: linkWhatsapp(x.whatsapp), larguraVml: 240 },
+    corpo: corpo + (topo ? '' : x.textoAntes ? ofertas : chamada(t(x.cta), '8px 0 4px 0')),
+    botao: { texto: x.botao, link: linkWhatsapp(x.whatsapp), larguraVml: x.botao.length > 10 ? 280 : 240 },
     legais: [`${asterisco ? '* ' : ''}${t(x.legal)}`, ...(e ? [e.legal] : x.ofertas.map((o) => porNome(o.empreendimento).legal))],
     cssMobile: CSS,
     respiro: false,
